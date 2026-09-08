@@ -1,0 +1,43 @@
+name: Deploy to InfinityFree
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Website
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # URL backend production (Render). Ubah value di bawah setelah deploy backend.
+      - name: Buat .env.production
+        run: echo "VITE_API_URL=https://eduprogress-api.onrender.com" > .env.production
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Build project
+        run: npm run build
+
+      # Memastikan .htaccess ada di folder dist/
+      - name: Create .htaccess in dist
+        run: |
+          echo "AddType application/javascript .js .mjs" >> dist/.htaccess
+
+      - name: Upload ke InfinityFree via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftpupload.net
+          username: if0_42858697
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/      # <-- PENTING: Hanya upload isi folder dist
+          server-dir: /htdocs/
