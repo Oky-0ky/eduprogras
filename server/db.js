@@ -42,7 +42,7 @@ pool.getConnection()
     } else if (err.code === 'ENOTFOUND' || err.code === 'ETIMEDOUT') {
       console.error('   → Cek DB_HOST (misal sqlXXX.infinityfree.com) & pastikan koneksi internet aktif');
     }
-    process.exit(1);
+    console.error('   → Server akan tetap berjalan, namun endpoint yang menggunakan database tidak akan berfungsi sampai koneksi berhasil.');
   });
 
 export default pool;
