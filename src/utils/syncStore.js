@@ -6,7 +6,7 @@
 // agar aplikasi tetap cepat & offline-tolerant.
 // ============================================
 
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+export const API_URL = import.meta.env.VITE_API_URL || 'https://eduprogress-api-production.up.railway.app';
 
 // ── Simpan satu key ke server + cache lokal ──────────────────────────
 export async function setState(key, value) {
