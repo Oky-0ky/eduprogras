@@ -18,7 +18,7 @@ export async function setState(key, value) {
 
   // 2. Kirim/Sinkronkan ke Backend Railway
   try {
-    const res = await fetch(`\({API_URL}/api/state/\){encodeURIComponent(key)}`, {
+    const res = await fetch(`${API_URL}/api/state/${encodeURIComponent(key)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(value ?? null)
@@ -33,7 +33,7 @@ export async function setState(key, value) {
 // ── Ambil satu key: server dulu, fallback ke cache lokal ─────────────
 export async function getState(key, fallback = null) {
   try {
-    const res = await fetch(`\({API_URL}/api/state/\){encodeURIComponent(key)}`);
+    const res = await fetch(`${API_URL}/api/state/${encodeURIComponent(key)}`);
     if (res.ok) {
       const json = await res.json();
       if (json && (json.success || json.data !== undefined)) {
