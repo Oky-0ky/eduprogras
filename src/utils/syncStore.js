@@ -1,7 +1,7 @@
 // ============================================
 // EduProgress - Sync Store (lintas perangkat)
 // Pengganti localStorage: data disimpan di
-// backend API + MySQL (InfinityFree).
+// backend API Railway + MySQL.
 // localStorage tetap dipakai sebagai CACHE
 // agar aplikasi tetap cepat & offline-tolerant.
 // ============================================
@@ -10,9 +10,15 @@ export const API_URL = import.meta.env.VITE_API_URL || 'https://eduprogress-api-
 
 // ── Simpan satu key ke server + cache lokal ──────────────────────────
 export async function setState(key, value) {
-  try { localStorage.setItem(`sync_${key}`, JSON.stringify(value)); } catch (_) {}
+  // 1. Simpan ke cache lokal (tanpa prefix agar kompatibel dengan kode lama)
   try {
-    const res = await fetch(`${API_URL}/api/state/${encodeURIComponent(key)}`, {
+    localStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(`sync_${key}`, JSON.stringify(value));
+  } catch (_) {}
+
+  // 2. Kirim/Sinkronkan ke Backend Railway
+  try {
+    const res = await fetch(`\({API_URL}/api/state/\){encodeURIComponent(key)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(value ?? null)
@@ -27,22 +33,27 @@ export async function setState(key, value) {
 // ── Ambil satu key: server dulu, fallback ke cache lokal ─────────────
 export async function getState(key, fallback = null) {
   try {
-    const res = await fetch(`${API_URL}/api/state/${encodeURIComponent(key)}`);
+    const res = await fetch(`\({API_URL}/api/state/\){encodeURIComponent(key)}`);
     if (res.ok) {
       const json = await res.json();
-      if (json.success) {
-        if (json.data !== null && json.data !== undefined) {
-          try { localStorage.setItem(`sync_${key}`, JSON.stringify(json.data)); } catch (_) {}
-          return json.data;
+      if (json && (json.success || json.data !== undefined)) {
+        const serverData = json.data !== undefined ? json.data : json;
+        if (serverData !== null && serverData !== undefined) {
+          try {
+            localStorage.setItem(key, JSON.stringify(serverData));
+            localStorage.setItem(`sync_${key}`, JSON.stringify(serverData));
+          } catch (_) {}
+          return serverData;
         }
-        return fallback; // belum ada di server
       }
     }
   } catch (e) {
     console.warn(`[syncStore] Gagal ambil "${key}" dari server, pakai cache lokal:`, e.message);
   }
+
+  // Fallback ke LocalStorage jika offline atau server belum punya data
   try {
-    const raw = localStorage.getItem(`sync_${key}`);
+    const raw = localStorage.getItem(key) || localStorage.getItem(`sync_${key}`);
     return raw ? JSON.parse(raw) : fallback;
   } catch (_) {
     return fallback;
@@ -55,20 +66,21 @@ export async function getAllState() {
     const res = await fetch(`${API_URL}/api/state`);
     if (res.ok) {
       const json = await res.json();
-      if (json.success) {
-        for (const [k, v] of Object.entries(json.data || {})) {
-          try { localStorage.setItem(`sync_${k}`, JSON.stringify(v)); } catch (_) {}
+      const dataObj = json.data || json;
+      if (dataObj && typeof dataObj === 'object') {
+        for (const [k, v] of Object.entries(dataObj)) {
+          try {
+            localStorage.setItem(k, JSON.stringify(v));
+            localStorage.setItem(`sync_${k}`, JSON.stringify(v));
+          } catch (_) {}
         }
-        return json.data;
+        return dataObj;
       }
     }
   } catch (_) {}
   return null;
 }
 
-// ── Helper kompatibel localStorage, tapi versi async + sinkron server ─
-// Pemakaian di komponen:
-//   const data = await syncGet('eduprogress_students', INITIAL);
-//   await syncSet('eduprogress_students', next);
+// Helper untuk kompatibilitas
 export const syncGet = getState;
 export const syncSet = setState;
