@@ -88,7 +88,8 @@ const verifyToken = (req, res, next) => {
 };
 
 // ======================== API ROUTES ======================== //
-
+app.get('/', (req, res) => {
+  res.send('
 // 1. Auth Endpoint
 app.post('/api/auth/login', (req, res) => {
   const { email, role } = req.body;
