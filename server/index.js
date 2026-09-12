@@ -88,22 +88,9 @@ const verifyToken = (req, res, next) => {
 };
 
 // ======================== API ROUTES ======================== //
-app.get('/', (req, res) => { res.send(');});
-// 1. Auth Endpoint
-app.post('/api/auth/login', (req, res) => {
-  const { email, role } = req.body;
-  const user = db.demoAccounts.find(acc => acc.email === email || acc.role === role) || db.demoAccounts[0];
-  const token = jwt.sign({ id: user.email, role: user.role, name: user.name }, JWT_SECRET, { expiresIn: '7d' });
-  return res.json({
-    token,
-    user: {
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      badge: user.badge,
-      avatar: user.avatar
-    }
-  });
+
+app.get('/api/health', (req, res) => {
+  res.json({ success: true, message: 'Server is running' });
 });
 
 // 2. Students Endpoint
