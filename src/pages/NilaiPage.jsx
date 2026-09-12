@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import GlassCard from '../components/GlassCard';
 import {
   ClipboardList, Plus, Trash2, Edit2, Save, X, TrendingUp,
-  BookOpen, FileText, CheckCircle2, ChevronDown, Send
+  BookOpen, FileText, CheckCircle2, ChevronDown, Send, Users
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine
@@ -47,6 +47,14 @@ export default function NilaiPage() {
   // WhatsApp kirim rekap nilai
   const [showWaModal, setShowWaModal] = useState(false);
 
+  // Bulk input — input nilai semua siswa sekaligus
+  const [showBulkForm, setShowBulkForm] = useState(false);
+  const [bulkTitle, setBulkTitle] = useState('');
+  const [bulkDate, setBulkDate] = useState(new Date().toISOString().split('T')[0]);
+  const [bulkScores, setBulkScores] = useState({}); // { [studentId]: '85' }
+  const [bulkStep, setBulkStep] = useState('entry'); // 'entry' (ketik judul & tanggal) -> 'table' (isi nilai semua siswa)
+  const [bulkSaving, setBulkSaving] = useState(false);
+
   const currentStudent = selectedStudent || INITIAL_STUDENTS[0];
   const studentId = currentStudent?.id || 'std-1';
 
@@ -70,6 +78,73 @@ export default function NilaiPage() {
   const resetForm = () => {
     setFormTitle(''); setFormScore(''); setFormDate(new Date().toISOString().split('T')[0]);
     setEditId(null); setShowForm(false);
+  };
+
+  const resetBulkForm = () => {
+    setBulkTitle('');
+    setBulkDate(new Date().toISOString().split('T')[0]);
+    setBulkScores({});
+    setBulkStep('entry');
+    setShowBulkForm(false);
+  };
+
+  const filledCount = Object.values(bulkScores).filter(v => v !== '' && v !== undefined && !isNaN(parseInt(v)) && parseInt(v) >= 0 && parseInt(v) <= 100).length;
+
+  const handleBulkSave = async () => {
+    if (!bulkTitle.trim() || bulkSaving) return;
+    const allStudents = students || INITIAL_STUDENTS;
+    setBulkSaving(true);
+    const savedTitle = bulkTitle.trim();
+    const savedDate = bulkDate;
+    // Kumpulkan siswa yang nilainya diisi
+    const entries = allStudents
+      .map(st => ({ st, scoreStr: bulkScores[st.id] }))
+      .filter(({ scoreStr }) => scoreStr !== undefined && scoreStr !== '');
+
+    if (entries.length === 0) { setBulkSaving(false); return; }
+
+    // Update grades untuk semua siswa sekaligus (local state dulu)
+    setGrades(prev => {
+      const clone = JSON.parse(JSON.stringify(prev));
+      entries.forEach(({ st, scoreStr }) => {
+        const score = parseInt(scoreStr);
+        if (isNaN(score) || score < 0 || score > 100) return;
+        if (!clone[st.id]) clone[st.id] = {};
+        if (!clone[st.id][activeSubject]) clone[st.id][activeSubject] = { tugas: [], ulangan: [] };
+        clone[st.id][activeSubject][activeTab].push({
+          id: `${activeTab}-bulk-${st.id}-${Date.now()}`,
+          title: bulkTitle.trim(),
+          score,
+          date: bulkDate,
+          // nilai 0 = anak belum mengumpulkan tugas → tandai otomatis
+          status: score === 0 ? 'missing' : 'submitted',
+        });
+      });
+      return clone;
+    });
+
+    // Coba simpan ke server via addGrade untuk tiap siswa
+    if (addGrade) {
+      for (const { st, scoreStr } of entries) {
+        const score = parseInt(scoreStr);
+        if (isNaN(score) || score < 0 || score > 100) continue;
+        try {
+          await addGrade({
+            studentId: st.id, subjectId: activeSubject, type: activeTab,
+            title: bulkTitle.trim(), score, date: bulkDate,
+            status: score === 0 ? 'missing' : 'submitted',
+          });
+        } catch (_) { /* sudah disimpan di local state */ }
+      }
+    }
+
+    const zeroStudents = entries.filter(({ scoreStr }) => parseInt(scoreStr) === 0).map(({ st }) => st.name);
+    resetBulkForm();
+    if (zeroStudents.length > 0) {
+      alert(`✅ Berhasil! Entri "${savedTitle}" (${savedDate}) tersimpan untuk ${entries.length} siswa.\n\n⚠️ PEMBERITAHUAN: ${zeroStudents.length} siswa diberi nilai 0 dan otomatis ditandai "Belum Mengumpulkan" di Ceklis Tugas:\n• ${zeroStudents.join('\n• ')}\n\nLaporan "Belum Mengumpulkan" dapat dilihat di menu Laporan Tugas Selesai.`);
+    } else {
+      alert(`✅ Berhasil! Entri "${savedTitle}" (${savedDate}) tersimpan untuk ${entries.length} siswa.`);
+    }
   };
 
   const handleEdit = (item) => {
@@ -326,12 +401,20 @@ export default function NilaiPage() {
                 </button>
               ))}
             </div>
-            <button
-              onClick={() => { resetForm(); setShowForm(true); }}
-              className="px-3.5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs rounded-2xl shadow flex items-center gap-1.5"
-            >
-              <Plus className="w-4 h-4" /> Tambah {activeTab === 'tugas' ? 'Tugas' : 'Ulangan'}
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => { resetBulkForm(); setShowBulkForm(true); setShowForm(false); }}
+                className="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-2xl shadow flex items-center gap-1.5"
+              >
+                <Users className="w-4 h-4" /> Semua Siswa
+              </button>
+              <button
+                onClick={() => { resetForm(); setShowForm(true); setShowBulkForm(false); }}
+                className="px-3.5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs rounded-2xl shadow flex items-center gap-1.5"
+              >
+                <Plus className="w-4 h-4" /> Tambah {activeTab === 'tugas' ? 'Tugas' : 'Ulangan'}
+              </button>
+            </div>
           </div>
 
           {/* Inline Form */}
@@ -370,6 +453,117 @@ export default function NilaiPage() {
                   <Save className="w-3.5 h-3.5" /> Simpan
                 </button>
               </div>
+            </div>
+          )}
+
+          {/* Bulk Input Form — Langkah 1: ketik nama & tanggal, Langkah 2: tabel nilai semua siswa */}
+          {showBulkForm && (
+            <div className="p-4 bg-amber-50 dark:bg-amber-950/30 rounded-3xl border border-amber-200 dark:border-amber-800 space-y-3">
+              <p className="text-xs font-extrabold text-amber-700 dark:text-amber-300 flex items-center gap-2">
+                <Users className="w-4 h-4" />
+                Input {activeTab === 'tugas' ? 'Nilai Tugas' : 'Ulangan Harian'} — Semua Siswa Sekaligus
+              </p>
+
+              {/* ===== LANGKAH 1: Nama tugas & tanggal ===== */}
+              {bulkStep === 'entry' && (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <input
+                      type="text"
+                      autoFocus
+                      placeholder={activeTab === 'tugas' ? 'Nama Tugas (cth: Tugas Bab 3)' : 'Nama Ulangan (cth: UH Bab 2)'}
+                      value={bulkTitle}
+                      onChange={e => setBulkTitle(e.target.value)}
+                      onKeyDown={e => { if (e.key === 'Enter' && bulkTitle.trim()) setBulkStep('table'); }}
+                      className="px-3 py-2 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-700 rounded-2xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-amber-400"
+                    />
+                    <input
+                      type="date"
+                      value={bulkDate}
+                      onChange={e => setBulkDate(e.target.value)}
+                      className="px-3 py-2 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-700 rounded-2xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-amber-400"
+                    />
+                  </div>
+                  <div className="flex gap-2 justify-end">
+                    <button onClick={resetBulkForm} className="px-4 py-1.5 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-2xl flex items-center gap-1">
+                      <X className="w-3.5 h-3.5" /> Batal
+                    </button>
+                    <button
+                      onClick={() => setBulkStep('table')}
+                      disabled={!bulkTitle.trim()}
+                      className="px-4 py-1.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-extrabold text-xs rounded-2xl flex items-center gap-1 shadow"
+                    >
+                      ➜ Lanjut: Isi Nilai Semua Siswa
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {/* ===== LANGKAH 2: Tabel nilai semua siswa ===== */}
+              {bulkStep === 'table' && (
+                <>
+                  <div className="flex flex-wrap items-center gap-2 text-[11px] font-bold text-amber-700 dark:text-amber-300">
+                    <span className="px-2.5 py-1 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-700 rounded-xl">📝 {bulkTitle}</span>
+                    <span className="px-2.5 py-1 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-700 rounded-xl">📅 {bulkDate}</span>
+                    <span className="px-2.5 py-1 bg-amber-100 dark:bg-amber-900/50 rounded-xl">✍️ Terisi: {filledCount}/{(students || INITIAL_STUDENTS).length}</span>
+                    <button
+                      onClick={() => setBulkStep('entry')}
+                      className="ml-auto px-2.5 py-1 bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-700 rounded-xl hover:bg-amber-100 dark:hover:bg-amber-900/40 transition"
+                    >
+                      ✏️ Edit judul/tanggal
+                    </button>
+                  </div>
+                  {/* Tabel nilai semua siswa */}
+              <div className="overflow-x-auto rounded-2xl border border-amber-100 dark:border-amber-900">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 font-extrabold">
+                      <th className="px-3 py-2 text-left">No</th>
+                      <th className="px-3 py-2 text-left">Nama Siswa</th>
+                      <th className="px-3 py-2 text-center w-28">Nilai (0–100)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-amber-50 dark:divide-amber-900/40">
+                    {(students || INITIAL_STUDENTS).map((st, idx) => (
+                      <tr key={st.id} className="bg-white dark:bg-slate-900/60 hover:bg-amber-50 dark:hover:bg-amber-950/20 transition">
+                        <td className="px-3 py-2 text-slate-400 font-bold">{idx + 1}</td>
+                        <td className="px-3 py-2 font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+                          <img src={st.avatar} alt={st.name} className="w-6 h-6 rounded-full object-cover shrink-0" />
+                          {st.name}
+                        </td>
+                        <td className="px-3 py-2 text-center">
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            placeholder="—"
+                            value={bulkScores[st.id] ?? ''}
+                            onChange={e => setBulkScores(prev => ({ ...prev, [st.id]: e.target.value }))}
+                            className="w-20 text-center px-2 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="text-[10px] text-amber-600 dark:text-amber-400 font-medium">
+                💡 Siswa yang kolom nilainya dikosongkan tidak akan mendapat entri.
+              </p>
+              <div className="flex flex-wrap gap-2 justify-end">
+                <button onClick={resetBulkForm} className="px-4 py-1.5 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-2xl flex items-center gap-1">
+                  <X className="w-3.5 h-3.5" /> Batal
+                </button>
+                <button
+                  onClick={handleBulkSave}
+                  disabled={!bulkTitle.trim() || filledCount === 0 || bulkSaving}
+                  className="px-4 py-1.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-extrabold text-xs rounded-2xl flex items-center gap-1 shadow"
+                >
+                  <Save className="w-3.5 h-3.5" /> {bulkSaving ? 'Menyimpan…' : `Simpan Semua (${filledCount} siswa)`}
+                </button>
+              </div>
+                </>
+              )}
             </div>
           )}
 

@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { INITIAL_STUDENTS, INITIAL_SUBJECTS } from '../data/initialData';
 import GlassCard from '../components/GlassCard';
 import {
-  CheckSquare, Printer, Send, CheckCircle2, XCircle,
+  CheckSquare, Printer, Send, CheckCircle2, XCircle, X,
   BookOpen, TrendingUp, FileText, Filter, ChevronDown,
   AlertCircle, Award, Link as LinkIcon, Copy, Users, Pencil
 } from 'lucide-react';
@@ -126,6 +126,10 @@ export default function TaskReport() {
     ? Math.round(reportSubmittedTasks.reduce((sum, task) => sum + Number(task.score || 0), 0) / reportSubmittedTasks.length)
     : 0;
 
+  // Pemberitahuan otomatis: siswa yang diberi nilai 0 = belum mengumpulkan tugas
+  const zeroScoreTasks = allTasks.filter(t => Number(t.score) === 0);
+  const [showZeroNotice, setShowZeroNotice] = useState(true);
+
   const toggleReportSubject = (subjectId) => {
     setSelectedReportSubjects(prev => prev.includes(subjectId)
       ? prev.filter(id => id !== subjectId)
@@ -197,6 +201,34 @@ export default function TaskReport() {
           </button>
         </div>
       </div>
+
+      {/* ── Pemberitahuan Otomatis: Nilai 0 = Belum Mengumpulkan Tugas ── */}
+      {showZeroNotice && zeroScoreTasks.length > 0 && (
+        <div className="bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800 rounded-3xl p-4 flex items-start gap-3 no-print">
+          <AlertCircle className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-extrabold text-rose-700 dark:text-rose-300">
+              ⚠️ Pemberitahuan: {currentStudent?.name} belum mengumpulkan {zeroScoreTasks.length} tugas (nilai 0)
+            </p>
+            <ul className="mt-1.5 space-y-0.5">
+              {zeroScoreTasks.map(t => (
+                <li key={t.id} className="text-[11px] font-semibold text-rose-600 dark:text-rose-400">
+                  • {t.title} — {t.subName} ({t.type}, {t.date})
+                </li>
+              ))}
+            </ul>
+            <p className="text-[10px] text-rose-500 mt-1.5 font-bold">
+              Siswa diberi nilai 0 otomatis tercatat "Belum Mengumpulkan" di ceklis tugas. Berikan nilai &gt; 0 setelah tugas dikumpulkan.
+            </p>
+          </div>
+          <button
+            onClick={() => setShowZeroNotice(false)}
+            className="p-1.5 rounded-xl text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 transition shrink-0"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
       {/* ── Pilih Siswa ── */}
       <GlassCard className="p-4 space-y-2 no-print">
