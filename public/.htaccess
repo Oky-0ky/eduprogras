@@ -1,0 +1,21 @@
+# Konfigurasi MIME Type JavaScript
+AddType application/javascript .js .mjs
+
+# EduProgress — SPA routing untuk InfinityFree (Apache)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Jangan redirect file/folder yang benar-benar ada
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# Jangan cache index.html supaya update selalu langsung terlihat
+<FilesMatch "index\.html$">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </IfModule>
+</FilesMatch>

@@ -1,0 +1,1630 @@
+{
+  "quizzes": [],
+  "gameSessions": [
+    {
+      "id": "mt0zh5n0mn9ll",
+      "gameCode": "183422",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt0zhj42q39ek",
+          "name": "KU",
+          "score": 0,
+          "correctAnswers": 0,
+          "wrongAnswers": 1,
+          "answers": [
+            {
+              "id": "mt0zigqlabf5t",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "",
+              "isCorrect": false,
+              "responseTime": 20,
+              "points": 0,
+              "answeredAt": "2026-08-20T03:52:25.917Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T03:51:42.338Z"
+        },
+        {
+          "id": "mt0zhr91nlgmt",
+          "name": "KI",
+          "score": 0,
+          "correctAnswers": 0,
+          "wrongAnswers": 1,
+          "answers": [
+            {
+              "id": "mt0zig8whtmur",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "",
+              "isCorrect": false,
+              "responseTime": 20,
+              "points": 0,
+              "answeredAt": "2026-08-20T03:52:25.280Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T03:51:52.885Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T03:52:12.264Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T03:51:24.876Z"
+    },
+    {
+      "id": "mt0zj1228ab6z",
+      "gameCode": "939134",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt0zj6xxt1iu3",
+          "name": "KI",
+          "score": 0,
+          "correctAnswers": 0,
+          "wrongAnswers": 1,
+          "answers": [
+            {
+              "id": "mt0zjs1zrfxlg",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 11.188,
+              "points": 0,
+              "answeredAt": "2026-08-20T03:53:27.239Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T03:52:59.877Z"
+        },
+        {
+          "id": "mt0zjgh9qbxe2",
+          "name": "N",
+          "score": 1357,
+          "correctAnswers": 1,
+          "wrongAnswers": 0,
+          "answers": [
+            {
+              "id": "mt0zjntqllebj",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 5.705,
+              "points": 1357,
+              "answeredAt": "2026-08-20T03:53:21.758Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T03:53:12.237Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T03:53:16.045Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T03:52:52.250Z"
+    },
+    {
+      "id": "mt0znvial6fsa",
+      "gameCode": "413019",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt0zo1jn1d5qm",
+          "name": "KI",
+          "score": 0,
+          "correctAnswers": 0,
+          "wrongAnswers": 1,
+          "answers": [
+            {
+              "id": "mt0zolwqcel6q",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 6.199,
+              "points": 0,
+              "answeredAt": "2026-08-20T03:57:12.554Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T03:56:46.163Z"
+        },
+        {
+          "id": "mt0zo8m3x5twy",
+          "name": "a",
+          "score": 1169,
+          "correctAnswers": 1,
+          "wrongAnswers": 0,
+          "answers": [
+            {
+              "id": "mt0zorbrs0uz6",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 13.219,
+              "points": 1169,
+              "answeredAt": "2026-08-20T03:57:19.575Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T03:56:55.323Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T03:57:49.777Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T03:56:38.338Z"
+    },
+    {
+      "id": "mt0zqmoyg5fcb",
+      "gameCode": "613840",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt0zqvm1u0e8o",
+          "name": "a",
+          "score": 0,
+          "correctAnswers": 0,
+          "wrongAnswers": 1,
+          "answers": [
+            {
+              "id": "mt0zr53xxmkdx",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 2.632,
+              "points": 0,
+              "answeredAt": "2026-08-20T03:59:10.749Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T03:58:58.441Z"
+        },
+        {
+          "id": "mt0zr10y7tpoa",
+          "name": "d",
+          "score": 0,
+          "correctAnswers": 0,
+          "wrongAnswers": 1,
+          "answers": [
+            {
+              "id": "mt0zr6srgts98",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 4.824,
+              "points": 0,
+              "answeredAt": "2026-08-20T03:59:12.939Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T03:59:05.458Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T03:59:08.110Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T03:58:46.882Z"
+    },
+    {
+      "id": "mt0zw0jm1hvs0",
+      "gameCode": "275625",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt0zw7sc1ij5j",
+          "name": "j",
+          "score": 0,
+          "correctAnswers": 0,
+          "wrongAnswers": 1,
+          "answers": [
+            {
+              "id": "mt0zwhudmsx37",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 3.184,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:03:20.533Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T04:03:07.500Z"
+        },
+        {
+          "id": "mt0zwcv2j0x5v",
+          "name": "k",
+          "score": 0,
+          "correctAnswers": 0,
+          "wrongAnswers": 1,
+          "answers": [
+            {
+              "id": "mt0zwkvfapk99",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 7.111,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:03:24.459Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T04:03:14.078Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T04:03:17.341Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T04:02:58.114Z"
+    },
+    {
+      "id": "mt10vchmowpzu",
+      "gameCode": "203078",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt10vtmed8yhk",
+          "name": "k",
+          "score": 1493,
+          "correctAnswers": 1,
+          "wrongAnswers": 9,
+          "answers": [
+            {
+              "id": "mt10w3o225j43",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 3.791,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:31:01.778Z"
+            },
+            {
+              "id": "mt10wjzbftphi",
+              "questionId": "mt0zaz5he8kt6",
+              "answer": "",
+              "isCorrect": false,
+              "responseTime": 20,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:31:22.919Z"
+            },
+            {
+              "id": "mt10x06gakwro",
+              "questionId": "mt0zaz5hjv9s8",
+              "answer": "",
+              "isCorrect": false,
+              "responseTime": 20,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:31:43.912Z"
+            },
+            {
+              "id": "mt10ye033nm7s",
+              "questionId": "mt0zaz5h8sgnc",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 49.568,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:32:48.483Z"
+            },
+            {
+              "id": "mt10yi9dkqtps",
+              "questionId": "mt0zaz5hly7fp",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 4.806,
+              "points": 1493,
+              "answeredAt": "2026-08-20T04:32:54.001Z"
+            },
+            {
+              "id": "mt10yjomszysg",
+              "questionId": "mt0zaz5h3vay6",
+              "answer": "B",
+              "isCorrect": false,
+              "responseTime": 1.12,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:32:55.846Z"
+            },
+            {
+              "id": "mt10ykxqpviez",
+              "questionId": "mt0zaz5hrdqvq",
+              "answer": "B",
+              "isCorrect": false,
+              "responseTime": 0.904,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:32:57.470Z"
+            },
+            {
+              "id": "mt10ym3i8r08b",
+              "questionId": "mt0zaz5htnkvp",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 0.792,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:32:58.974Z"
+            },
+            {
+              "id": "mt10yn4ctzsp1",
+              "questionId": "mt0zaz5h1oefw",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.604,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:33:00.300Z"
+            },
+            {
+              "id": "mt10yod8a6p1j",
+              "questionId": "mt0zaz5h0g4j5",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.894,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:33:01.916Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T04:30:48.758Z"
+        },
+        {
+          "id": "mt10vypeidyk3",
+          "name": "l",
+          "score": 0,
+          "correctAnswers": 0,
+          "wrongAnswers": 10,
+          "answers": [
+            {
+              "id": "mt10who1ryq6m",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "",
+              "isCorrect": false,
+              "responseTime": 20,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:31:19.921Z"
+            },
+            {
+              "id": "mt10wxvaqtf1s",
+              "questionId": "mt0zaz5he8kt6",
+              "answer": "",
+              "isCorrect": false,
+              "responseTime": 20,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:31:40.918Z"
+            },
+            {
+              "id": "mt10yxriauydt",
+              "questionId": "mt0zaz5hjv9s8",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 75.179,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:33:14.095Z"
+            },
+            {
+              "id": "mt10yyo6jn4wr",
+              "questionId": "mt0zaz5h8sgnc",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.455,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:33:15.270Z"
+            },
+            {
+              "id": "mt10yzin0novs",
+              "questionId": "mt0zaz5hly7fp",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.387,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:33:16.367Z"
+            },
+            {
+              "id": "mt10z072nawgo",
+              "questionId": "mt0zaz5h3vay6",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.157,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:33:17.246Z"
+            },
+            {
+              "id": "mt10z1u450ont",
+              "questionId": "mt0zaz5hrdqvq",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 1.411,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:33:19.372Z"
+            },
+            {
+              "id": "mt10z2pwoi215",
+              "questionId": "mt0zaz5htnkvp",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.424,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:33:20.516Z"
+            },
+            {
+              "id": "mt10z3ngxjon6",
+              "questionId": "mt0zaz5h1oefw",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.493,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:33:21.724Z"
+            },
+            {
+              "id": "mt10z4rub1lb6",
+              "questionId": "mt0zaz5h0g4j5",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.731,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:33:23.178Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T04:30:55.346Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T04:30:57.980Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T04:30:26.554Z"
+    },
+    {
+      "id": "mt10zifc1xao5",
+      "gameCode": "126733",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt10zob5so3nl",
+          "name": "k",
+          "score": 4475,
+          "correctAnswers": 3,
+          "wrongAnswers": 7,
+          "answers": [
+            {
+              "id": "mt10zzjrxd4oz",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 6.612,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:34:03.063Z"
+            },
+            {
+              "id": "mt1105sdgiklw",
+              "questionId": "mt0zaz5he8kt6",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 7.373,
+              "points": 1489,
+              "answeredAt": "2026-08-20T04:34:11.149Z"
+            },
+            {
+              "id": "mt110cheuvud9",
+              "questionId": "mt0zaz5hjv9s8",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 7.96,
+              "points": 1488,
+              "answeredAt": "2026-08-20T04:34:19.826Z"
+            },
+            {
+              "id": "mt110gjhgfj5t",
+              "questionId": "mt0zaz5h8sgnc",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 4.547,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:34:25.085Z"
+            },
+            {
+              "id": "mt110hxiv4ngr",
+              "questionId": "mt0zaz5hly7fp",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 1.079,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:34:26.886Z"
+            },
+            {
+              "id": "mt110j8e3j0hs",
+              "questionId": "mt0zaz5h3vay6",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.967,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:34:28.574Z"
+            },
+            {
+              "id": "mt110kd1ivuk7",
+              "questionId": "mt0zaz5hrdqvq",
+              "answer": "C",
+              "isCorrect": true,
+              "responseTime": 0.751,
+              "points": 1498,
+              "answeredAt": "2026-08-20T04:34:30.037Z"
+            },
+            {
+              "id": "mt110lgsiypir",
+              "questionId": "mt0zaz5htnkvp",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.714,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:34:31.468Z"
+            },
+            {
+              "id": "mt110ml0lzm8u",
+              "questionId": "mt0zaz5h1oefw",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.729,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:34:32.916Z"
+            },
+            {
+              "id": "mt110nmq9mamv",
+              "questionId": "mt0zaz5h0g4j5",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.641,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:34:34.274Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T04:33:48.497Z"
+        },
+        {
+          "id": "mt10zs5leatx9",
+          "name": "l",
+          "score": 11933,
+          "correctAnswers": 8,
+          "wrongAnswers": 2,
+          "answers": [
+            {
+              "id": "mt110srcbmlbd",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 44.468,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:34:40.920Z"
+            },
+            {
+              "id": "mt110v3rel3eu",
+              "questionId": "mt0zaz5he8kt6",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 2.321,
+              "points": 1496,
+              "answeredAt": "2026-08-20T04:34:43.959Z"
+            },
+            {
+              "id": "mt110z4te7t4l",
+              "questionId": "mt0zaz5hjv9s8",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 4.507,
+              "points": 1493,
+              "answeredAt": "2026-08-20T04:34:49.181Z"
+            },
+            {
+              "id": "mt1111tuutjht",
+              "questionId": "mt0zaz5h8sgnc",
+              "answer": "C",
+              "isCorrect": true,
+              "responseTime": 2.778,
+              "points": 1496,
+              "answeredAt": "2026-08-20T04:34:52.674Z"
+            },
+            {
+              "id": "mt1116vdhbgyp",
+              "questionId": "mt0zaz5hly7fp",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 5.817,
+              "points": 1491,
+              "answeredAt": "2026-08-20T04:34:59.209Z"
+            },
+            {
+              "id": "mt111dba3yz34",
+              "questionId": "mt0zaz5h3vay6",
+              "answer": "C",
+              "isCorrect": true,
+              "responseTime": 7.637,
+              "points": 1489,
+              "answeredAt": "2026-08-20T04:35:07.558Z"
+            },
+            {
+              "id": "mt111gnggbo1m",
+              "questionId": "mt0zaz5hrdqvq",
+              "answer": "C",
+              "isCorrect": true,
+              "responseTime": 3.602,
+              "points": 1494,
+              "answeredAt": "2026-08-20T04:35:11.884Z"
+            },
+            {
+              "id": "mt111nf20cpbu",
+              "questionId": "mt0zaz5htnkvp",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 8.046,
+              "points": 1488,
+              "answeredAt": "2026-08-20T04:35:20.654Z"
+            },
+            {
+              "id": "mt111vciigokz",
+              "questionId": "mt0zaz5h1oefw",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 9.561,
+              "points": 1486,
+              "answeredAt": "2026-08-20T04:35:30.930Z"
+            },
+            {
+              "id": "mt111wlb35xjn",
+              "questionId": "mt0zaz5h0g4j5",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.9,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:35:32.543Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T04:33:53.481Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T04:33:56.444Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T04:33:40.872Z"
+    },
+    {
+      "id": "mt117jrkcma8b",
+      "gameCode": "161770",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt117suhxw1m4",
+          "name": "e",
+          "score": 1499,
+          "correctAnswers": 1,
+          "wrongAnswers": 9,
+          "answers": [
+            {
+              "id": "mt1186xp7ndm1",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 5.678,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:40:25.885Z"
+            },
+            {
+              "id": "mt118ezjk6py2",
+              "questionId": "mt0zaz5he8kt6",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 9.711,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:40:36.319Z"
+            },
+            {
+              "id": "mt118fxcng71e",
+              "questionId": "mt0zaz5hjv9s8",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.498,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:40:37.536Z"
+            },
+            {
+              "id": "mt118gqmyn9f4",
+              "questionId": "mt0zaz5h8sgnc",
+              "answer": "B",
+              "isCorrect": false,
+              "responseTime": 0.335,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:40:38.590Z"
+            },
+            {
+              "id": "mt118hw7ze6s9",
+              "questionId": "mt0zaz5hly7fp",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 0.774,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:40:40.087Z"
+            },
+            {
+              "id": "mt118ionlbv44",
+              "questionId": "mt0zaz5h3vay6",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.303,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:40:41.111Z"
+            },
+            {
+              "id": "mt118jhf4sm6s",
+              "questionId": "mt0zaz5hrdqvq",
+              "answer": "C",
+              "isCorrect": true,
+              "responseTime": 0.324,
+              "points": 1499,
+              "answeredAt": "2026-08-20T04:40:42.147Z"
+            },
+            {
+              "id": "mt118k7f8icsp",
+              "questionId": "mt0zaz5htnkvp",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.218,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:40:43.083Z"
+            },
+            {
+              "id": "mt118m2jokplc",
+              "questionId": "mt0zaz5h1oefw",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 1.695,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:40:45.499Z"
+            },
+            {
+              "id": "mt118mz6ba7r4",
+              "questionId": "mt0zaz5h0g4j5",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 0.454,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:40:46.674Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T04:40:07.625Z"
+        },
+        {
+          "id": "mt117za6a2zsz",
+          "name": "w",
+          "score": 1443,
+          "correctAnswers": 1,
+          "wrongAnswers": 9,
+          "answers": [
+            {
+              "id": "mt118y11211vd",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 40.791,
+              "points": 1443,
+              "answeredAt": "2026-08-20T04:41:00.997Z"
+            },
+            {
+              "id": "mt118z6c2m39z",
+              "questionId": "mt0zaz5he8kt6",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.764,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:41:02.484Z"
+            },
+            {
+              "id": "mt118zsjpq41g",
+              "questionId": "mt0zaz5hjv9s8",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.085,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:41:03.283Z"
+            },
+            {
+              "id": "mt1190fgzxx28",
+              "questionId": "mt0zaz5h8sgnc",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.112,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:41:04.108Z"
+            },
+            {
+              "id": "mt11910pqqare",
+              "questionId": "mt0zaz5hly7fp",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.046,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:41:04.873Z"
+            },
+            {
+              "id": "mt1192pth1jqa",
+              "questionId": "mt0zaz5h3vay6",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 1.486,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:41:07.073Z"
+            },
+            {
+              "id": "mt11945jhs072",
+              "questionId": "mt0zaz5hrdqvq",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 1.153,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:41:08.935Z"
+            },
+            {
+              "id": "mt11951bkhln3",
+              "questionId": "mt0zaz5htnkvp",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.425,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:41:10.079Z"
+            },
+            {
+              "id": "mt1195trqya7y",
+              "questionId": "mt0zaz5h1oefw",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.31,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:41:11.103Z"
+            },
+            {
+              "id": "mt1196og94ktz",
+              "questionId": "mt0zaz5h0g4j5",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.386,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:41:12.208Z"
+            }
+          ],
+          "badges": [],
+          "joinedAt": "2026-08-20T04:40:15.966Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T04:40:20.199Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T04:39:55.856Z"
+    },
+    {
+      "id": "mt11bgw6wkqoo",
+      "gameCode": "300291",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt11bnccftw0r",
+          "name": "k",
+          "score": 1496,
+          "correctAnswers": 1,
+          "wrongAnswers": 9,
+          "answers": [
+            {
+              "id": "mt11br8kp6ik3",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 2.862,
+              "points": 1496,
+              "answeredAt": "2026-08-20T04:43:12.164Z"
+            },
+            {
+              "id": "mt11bv2o1sqyt",
+              "questionId": "mt0zaz5he8kt6",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 4.253,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:43:17.136Z"
+            },
+            {
+              "id": "mt11bvxavkae0",
+              "questionId": "mt0zaz5hjv9s8",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.384,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:43:18.238Z"
+            },
+            {
+              "id": "mt11bwjxovljs",
+              "questionId": "mt0zaz5h8sgnc",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.094,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:43:19.053Z"
+            },
+            {
+              "id": "mt11bxb9qp8gu",
+              "questionId": "mt0zaz5hly7fp",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.267,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:43:20.037Z"
+            },
+            {
+              "id": "mt11byt99bp1c",
+              "questionId": "mt0zaz5h3vay6",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 1.229,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:43:21.981Z"
+            },
+            {
+              "id": "mt11bzjgybkeg",
+              "questionId": "mt0zaz5hrdqvq",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.226,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:43:22.924Z"
+            },
+            {
+              "id": "mt11c08jpp1hc",
+              "questionId": "mt0zaz5htnkvp",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.181,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:43:23.827Z"
+            },
+            {
+              "id": "mt11c0ubrsytu",
+              "questionId": "mt0zaz5h1oefw",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.056,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:43:24.611Z"
+            },
+            {
+              "id": "mt11c1oj5valq",
+              "questionId": "mt0zaz5h0g4j5",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.371,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:43:25.699Z"
+            }
+          ],
+          "badges": [],
+          "activity": {
+            "status": "answered",
+            "label": "Jawaban terkirim",
+            "questionId": "mt0zaz5h0g4j5",
+            "questionIndex": 9,
+            "answer": "D",
+            "isCorrect": false,
+            "responseTime": 0.371,
+            "updatedAt": "2026-08-20T04:43:25.699Z"
+          },
+          "joinedAt": "2026-08-20T04:43:07.116Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T04:43:09.292Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T04:42:58.758Z"
+    },
+    {
+      "id": "mt11d76ig8n0i",
+      "gameCode": "932190",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt11dcq9zjrqr",
+          "name": "k",
+          "score": 0,
+          "correctAnswers": 0,
+          "wrongAnswers": 10,
+          "answers": [
+            {
+              "id": "mt11dhwkjohsf",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 3.873,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:44:33.380Z"
+            },
+            {
+              "id": "mt11dio5ss6s6",
+              "questionId": "mt0zaz5he8kt6",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.278,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:44:34.373Z"
+            },
+            {
+              "id": "mt11djd0mbrd8",
+              "questionId": "mt0zaz5hjv9s8",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.171,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:44:35.268Z"
+            },
+            {
+              "id": "mt11dk38iobo4",
+              "questionId": "mt0zaz5h8sgnc",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.219,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:44:36.212Z"
+            },
+            {
+              "id": "mt11dkrn0w191",
+              "questionId": "mt0zaz5hly7fp",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.162,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:44:37.091Z"
+            },
+            {
+              "id": "mt11dleiwk89y",
+              "questionId": "mt0zaz5h3vay6",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.112,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:44:37.914Z"
+            },
+            {
+              "id": "mt11dm64p54ii",
+              "questionId": "mt0zaz5hrdqvq",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.278,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:44:38.908Z"
+            },
+            {
+              "id": "mt11dmxtnbvf9",
+              "questionId": "mt0zaz5htnkvp",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.279,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:44:39.905Z"
+            },
+            {
+              "id": "mt11dnqa3sj4d",
+              "questionId": "mt0zaz5h1oefw",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.304,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:44:40.930Z"
+            },
+            {
+              "id": "mt11dovkkcsdd",
+              "questionId": "mt0zaz5h0g4j5",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.761,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:44:42.416Z"
+            }
+          ],
+          "badges": [],
+          "activity": {
+            "status": "answered",
+            "label": "Jawaban terkirim",
+            "questionId": "mt0zaz5h0g4j5",
+            "questionIndex": 9,
+            "answer": "D",
+            "isCorrect": false,
+            "responseTime": 0.761,
+            "updatedAt": "2026-08-20T04:44:42.416Z"
+          },
+          "joinedAt": "2026-08-20T04:44:26.673Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T04:44:29.502Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T04:44:19.482Z"
+    },
+    {
+      "id": "mt11h8o2tzcim",
+      "gameCode": "818490",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt11hgz1tbcy0",
+          "name": "i",
+          "score": 2991,
+          "correctAnswers": 2,
+          "wrongAnswers": 8,
+          "answers": [
+            {
+              "id": "mt11hnjq29ve3",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 4.465,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:47:47.318Z"
+            },
+            {
+              "id": "mt11hs2azjifc",
+              "questionId": "mt0zaz5he8kt6",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 5.13,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:47:53.170Z"
+            },
+            {
+              "id": "mt11httu2bnnh",
+              "questionId": "mt0zaz5hjv9s8",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 1.575,
+              "points": 1497,
+              "answeredAt": "2026-08-20T04:47:55.458Z"
+            },
+            {
+              "id": "mt11hxmpqipw7",
+              "questionId": "mt0zaz5h8sgnc",
+              "answer": "C",
+              "isCorrect": true,
+              "responseTime": 4.214,
+              "points": 1494,
+              "answeredAt": "2026-08-20T04:48:00.385Z"
+            },
+            {
+              "id": "mt11hzigrhked",
+              "questionId": "mt0zaz5hly7fp",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 1.719,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:48:02.824Z"
+            },
+            {
+              "id": "mt11i0ly1u721",
+              "questionId": "mt0zaz5h3vay6",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.706,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:48:04.246Z"
+            },
+            {
+              "id": "mt11i1ivr6fim",
+              "questionId": "mt0zaz5hrdqvq",
+              "answer": "B",
+              "isCorrect": false,
+              "responseTime": 0.469,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:48:05.431Z"
+            },
+            {
+              "id": "mt11i2fws18mn",
+              "questionId": "mt0zaz5htnkvp",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 0.475,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:48:06.620Z"
+            },
+            {
+              "id": "mt11i3esm6z5l",
+              "questionId": "mt0zaz5h1oefw",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.54,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:48:07.876Z"
+            },
+            {
+              "id": "mt11i56dbtamv",
+              "questionId": "mt0zaz5h0g4j5",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 1.562,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:48:10.165Z"
+            }
+          ],
+          "badges": [],
+          "activity": {
+            "status": "answered",
+            "label": "Jawaban terkirim",
+            "questionId": "mt0zaz5h0g4j5",
+            "questionIndex": 9,
+            "answer": "D",
+            "isCorrect": false,
+            "responseTime": 1.562,
+            "updatedAt": "2026-08-20T04:48:10.165Z"
+          },
+          "joinedAt": "2026-08-20T04:47:38.797Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T04:47:42.848Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T04:47:28.034Z"
+    },
+    {
+      "id": "mt11k16jkdjpf",
+      "gameCode": "292100",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt11k8behafo0",
+          "name": "r",
+          "score": 1496,
+          "correctAnswers": 1,
+          "wrongAnswers": 9,
+          "answers": [
+            {
+              "id": "mt11kgk1f1cde",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 3.733,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:49:58.225Z"
+            },
+            {
+              "id": "mt11kj3ehqns1",
+              "questionId": "mt0zaz5he8kt6",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 2.574,
+              "points": 1496,
+              "answeredAt": "2026-08-20T04:50:01.514Z"
+            },
+            {
+              "id": "mt11kkkgisy30",
+              "questionId": "mt0zaz5hjv9s8",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 1.185,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:50:03.424Z"
+            },
+            {
+              "id": "mt11klwo0n9rm",
+              "questionId": "mt0zaz5h8sgnc",
+              "answer": "B",
+              "isCorrect": false,
+              "responseTime": 1.011,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:50:05.160Z"
+            },
+            {
+              "id": "mt11kmv44kfoa",
+              "questionId": "mt0zaz5hly7fp",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 0.529,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:50:06.400Z"
+            },
+            {
+              "id": "mt11knzqws7kw",
+              "questionId": "mt0zaz5h3vay6",
+              "answer": "B",
+              "isCorrect": false,
+              "responseTime": 0.744,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:50:07.862Z"
+            },
+            {
+              "id": "mt11kp4fa4pqe",
+              "questionId": "mt0zaz5hrdqvq",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.746,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:50:09.327Z"
+            },
+            {
+              "id": "mt11kr05pr4gt",
+              "questionId": "mt0zaz5htnkvp",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 1.716,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:50:11.765Z"
+            },
+            {
+              "id": "mt11krxpek911",
+              "questionId": "mt0zaz5h1oefw",
+              "answer": "D",
+              "isCorrect": false,
+              "responseTime": 0.49,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:50:12.973Z"
+            },
+            {
+              "id": "mt11ksvwv912p",
+              "questionId": "mt0zaz5h0g4j5",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 0.521,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:50:14.204Z"
+            }
+          ],
+          "badges": [],
+          "activity": {
+            "status": "answered",
+            "label": "Jawaban terkirim",
+            "questionId": "mt0zaz5h0g4j5",
+            "questionIndex": 9,
+            "answer": "A",
+            "isCorrect": false,
+            "responseTime": 0.521,
+            "updatedAt": "2026-08-20T04:50:14.204Z"
+          },
+          "joinedAt": "2026-08-20T04:49:47.546Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T04:49:54.485Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T04:49:38.299Z"
+    },
+    {
+      "id": "mt11mg01l2b0h",
+      "gameCode": "515220",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt11mg0w7bgrh",
+          "name": "Smoke Test",
+          "score": 0,
+          "correctAnswers": 0,
+          "wrongAnswers": 1,
+          "answers": [
+            {
+              "id": "mt11mg15ef6dg",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "",
+              "isCorrect": false,
+              "responseTime": 1,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:51:30.857Z"
+            }
+          ],
+          "badges": [],
+          "activity": {
+            "status": "answered",
+            "label": "Jawaban terkirim",
+            "questionId": "mt0zaz5hflnyb",
+            "questionIndex": 0,
+            "answer": "",
+            "isCorrect": false,
+            "responseTime": 1,
+            "updatedAt": "2026-08-20T04:51:30.857Z"
+          },
+          "joinedAt": "2026-08-20T04:51:30.848Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T04:51:30.853Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T04:51:30.817Z"
+    },
+    {
+      "id": "mt11ntdmw6a17",
+      "gameCode": "132961",
+      "quizId": "mt0zaz5hqnm89",
+      "hostId": "ustadz.iski@eduprogress.id",
+      "hostName": "Ustadz Iski (Kelas 5 SDQ - Madani Al washiyyah)",
+      "status": "playing",
+      "participants": [
+        {
+          "id": "mt11o05gh4cy9",
+          "name": "o",
+          "score": 5988,
+          "correctAnswers": 4,
+          "wrongAnswers": 6,
+          "answers": [
+            {
+              "id": "mt11o6ufvjsqi",
+              "questionId": "mt0zaz5hflnyb",
+              "answer": "A",
+              "isCorrect": false,
+              "responseTime": 5.782,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:52:52.263Z"
+            },
+            {
+              "id": "mt11o86c4b1fq",
+              "questionId": "mt0zaz5he8kt6",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 1.004,
+              "points": 1498,
+              "answeredAt": "2026-08-20T04:52:53.988Z"
+            },
+            {
+              "id": "mt11o99eyceui",
+              "questionId": "mt0zaz5hjv9s8",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 0.694,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:52:55.394Z"
+            },
+            {
+              "id": "mt11oagig87ko",
+              "questionId": "mt0zaz5h8sgnc",
+              "answer": "B",
+              "isCorrect": false,
+              "responseTime": 0.829,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:52:56.946Z"
+            },
+            {
+              "id": "mt11od7k13zoc",
+              "questionId": "mt0zaz5hly7fp",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 2.851,
+              "points": 1496,
+              "answeredAt": "2026-08-20T04:53:00.512Z"
+            },
+            {
+              "id": "mt11oelca2wy5",
+              "questionId": "mt0zaz5h3vay6",
+              "answer": "B",
+              "isCorrect": false,
+              "responseTime": 1.077,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:53:02.305Z"
+            },
+            {
+              "id": "mt11ogbyvaae9",
+              "questionId": "mt0zaz5hrdqvq",
+              "answer": "C",
+              "isCorrect": true,
+              "responseTime": 1.526,
+              "points": 1497,
+              "answeredAt": "2026-08-20T04:53:04.558Z"
+            },
+            {
+              "id": "mt11oi1rboxm8",
+              "questionId": "mt0zaz5htnkvp",
+              "answer": "B",
+              "isCorrect": true,
+              "responseTime": 1.512,
+              "points": 1497,
+              "answeredAt": "2026-08-20T04:53:06.783Z"
+            },
+            {
+              "id": "mt11ojyca0e2r",
+              "questionId": "mt0zaz5h1oefw",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 1.755,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:53:09.252Z"
+            },
+            {
+              "id": "mt11olbginy1i",
+              "questionId": "mt0zaz5h0g4j5",
+              "answer": "C",
+              "isCorrect": false,
+              "responseTime": 1.043,
+              "points": 0,
+              "answeredAt": "2026-08-20T04:53:11.020Z"
+            }
+          ],
+          "badges": [],
+          "activity": {
+            "status": "answered",
+            "label": "Jawaban terkirim",
+            "questionId": "mt0zaz5h0g4j5",
+            "questionIndex": 9,
+            "answer": "C",
+            "isCorrect": false,
+            "responseTime": 1.043,
+            "updatedAt": "2026-08-20T04:53:11.020Z"
+          },
+          "joinedAt": "2026-08-20T04:52:43.588Z"
+        }
+      ],
+      "currentQuestion": 0,
+      "startedAt": "2026-08-20T04:52:46.471Z",
+      "endedAt": null,
+      "createdAt": "2026-08-20T04:52:34.810Z"
+    }
+  ],
+  "rewards": [
+    {
+      "id": "r1",
+      "name": "Badge Bintang",
+      "icon": "⭐",
+      "description": "Diberikan untuk peserta dengan nilai tinggi",
+      "minimumScore": 800,
+      "isActive": true,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "r2",
+      "name": "Badge Juara",
+      "icon": "🏆",
+      "description": "Diberikan untuk juara 1 kelas",
+      "minimumScore": 1200,
+      "isActive": true,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "r3",
+      "name": "Badge Super Learner",
+      "icon": "🚀",
+      "description": "Untuk semangat belajar yang luar biasa",
+      "minimumScore": 500,
+      "isActive": true,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "r4",
+      "name": "Badge Rajin Belajar",
+      "icon": "📚",
+      "description": "Menyelesaikan kuis dengan penuh semangat",
+      "minimumScore": 300,
+      "isActive": true,
+      "createdAt": "2026-01-01"
+    }
+  ]
+}

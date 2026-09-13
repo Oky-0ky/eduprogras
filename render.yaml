@@ -1,0 +1,31 @@
+services:
+  # Backend API EduProgress (Express + Socket.IO + MySQL InfinityFree)
+  - type: web
+    name: eduprogress-api
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: .
+    buildCommand: npm install
+    startCommand: node server/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        sync: false   # isi manual di Dashboard Render, misal: sqlXXX.infinityfree.com
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_USER
+        sync: false   # if0_42858697
+      - key: DB_PASSWORD
+        sync: false   # password MySQL InfinityFree
+      - key: DB_NAME
+        value: if0_42858697_eduprogress
+      - key: JWT_SECRET
+        generateValue: true
+
+# Catatan:
+# - Render free tier instance tidur setelah 15 menit idle.
+#   Request pertama setelah tidur butuh ~30 detik untuk bangun.
+# - Socket.IO (QuizJuara) berjalan di server yang sama.
