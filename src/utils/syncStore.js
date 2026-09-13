@@ -5,7 +5,11 @@
 // tetap cepat & offline-tolerant.
 // ============================================
 
-export const API_URL = import.meta.env.VITE_API_URL || 'https://eduprogress-api-production.up.railway.app';
+// VITE_API_URL harus di-set di Vercel Environment Variables.
+// Fallback ke URL Railway production agar tetap berfungsi meski env belum di-set.
+export const API_URL = (import.meta.env.VITE_API_URL && import.meta.env.VITE_API_URL !== 'http://localhost:5000')
+  ? import.meta.env.VITE_API_URL
+  : 'https://eduprogress-api-production.up.railway.app';
 
 // ── Helper: kirim dengan retry sekali ────────────────────────────────────────
 async function fetchWithRetry(url, options, retries = 2) {
