@@ -23,26 +23,36 @@ const pool = mysql.createPool({
   queueLimit: 0,
   enableKeepAlive: true,
   keepAliveInitialDelayMs: 0,
-  charset: 'utf8mb4_general_ci',
-  timezone: '+07:00',
   connectTimeout: 20000
 });
 
-// Test connection
-pool.getConnection()
-  .then(conn => {
-    console.log('✅ MySQL Database Connected Successfully!');
+// ── Auto-migrate: buat tabel app_state jika belum ada ──────────────────────
+// Ini yang menjamin data tersimpan lintas browser setelah deploy ke Railway
+async function ensureSchema() {
+  try {
+    const conn = await pool.getConnection();
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS app_state (
+        state_key   VARCHAR(255) PRIMARY KEY,
+        state_value LONGTEXT     NOT NULL,
+        updated_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+                                 ON UPDATE CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    `);
+    console.log('✅ MySQL Connected — tabel app_state siap digunakan');
     console.log(`📦 Database: ${process.env.DB_NAME || 'eduprogress'}`);
     conn.release();
-  })
-  .catch(err => {
-    console.error('❌ Database Connection Failed:', err.code || '', err.message);
+  } catch (err) {
+    console.error('❌ Database Connection / Migration Failed:', err.code || '', err.message);
     if (err.code === 'ER_ACCESS_DENIED_ERROR') {
-      console.error('   → Cek DB_USER / DB_PASSWORD di file .env');
+      console.error('   → Cek DB_USER / DB_PASSWORD di Railway Environment Variables');
     } else if (err.code === 'ENOTFOUND' || err.code === 'ETIMEDOUT') {
-      console.error('   → Cek DB_HOST (misal sqlXXX.infinityfree.com) & pastikan koneksi internet aktif');
+      console.error('   → Cek DB_HOST di Railway Environment Variables');
     }
-    console.error('   → Server akan tetap berjalan, namun endpoint yang menggunakan database tidak akan berfungsi sampai koneksi berhasil.');
-  });
+    console.error('   → Server tetap berjalan, endpoint database tidak aktif sampai koneksi berhasil.');
+  }
+}
+
+ensureSchema();
 
 export default pool;
