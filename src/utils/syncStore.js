@@ -7,9 +7,11 @@
 
 // VITE_API_URL harus di-set di Vercel Environment Variables.
 // Fallback ke URL Railway production agar tetap berfungsi meski env belum di-set.
-export const API_URL = (import.meta.env.VITE_API_URL && import.meta.env.VITE_API_URL !== 'http://localhost:5000')
+// .replace(/\/+$/, '') — hapus trailing slash agar tidak jadi double-slash di URL akhir
+const _rawUrl = (import.meta.env.VITE_API_URL && import.meta.env.VITE_API_URL !== 'http://localhost:5000')
   ? import.meta.env.VITE_API_URL
   : 'https://eduprogress-api-production.up.railway.app';
+export const API_URL = _rawUrl.replace(/\/+$/, '');
 
 // ── Helper: kirim dengan retry sekali ────────────────────────────────────────
 async function fetchWithRetry(url, options, retries = 2) {
