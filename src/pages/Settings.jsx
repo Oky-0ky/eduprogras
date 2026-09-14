@@ -8,6 +8,18 @@ export default function Settings() {
   const { user, selectedStudent } = useAuth();
   const { themeMode, toggleTheme } = useTheme();
 
+  // Guard: jangan render sebelum user & selectedStudent tersedia
+  if (!user || !selectedStudent) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="text-center space-y-3">
+          <div className="w-10 h-10 border-4 border-slate-300 border-t-sky-500 rounded-full animate-spin mx-auto" />
+          <p className="text-sm font-bold text-slate-400">Memuat pengaturan…</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6 pb-12">
       {/* Header */}
@@ -32,11 +44,11 @@ export default function Settings() {
           </h3>
 
           <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-3xl border">
-            <img src={user.avatar} alt={user.name} className="w-16 h-16 rounded-full object-cover border-2 border-amber-300" />
+            <img src={user?.avatar} alt={user?.name} className="w-16 h-16 rounded-full object-cover border-2 border-amber-300" />
             <div>
-              <h4 className="font-extrabold text-sm text-slate-800 dark:text-slate-100">{user.name}</h4>
-              <p className="text-xs font-bold text-amber-600">{user.role}</p>
-              <p className="text-[11px] text-slate-400 font-mono mt-0.5">{user.email}</p>
+              <h4 className="font-extrabold text-sm text-slate-800 dark:text-slate-100">{user?.name}</h4>
+              <p className="text-xs font-bold text-amber-600">{user?.role}</p>
+              <p className="text-[11px] text-slate-400 font-mono mt-0.5">{user?.email}</p>
             </div>
           </div>
 
@@ -47,7 +59,7 @@ export default function Settings() {
             </div>
             <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl flex justify-between">
               <span className="text-slate-500">Siswa yang Dipantau:</span>
-              <span className="font-extrabold text-sky-600">{selectedStudent.name}</span>
+              <span className="font-extrabold text-sky-600">{selectedStudent?.name}</span>
             </div>
           </div>
         </GlassCard>
