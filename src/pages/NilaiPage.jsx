@@ -96,6 +96,7 @@ export default function NilaiPage() {
     setBulkSaving(true);
     const savedTitle = bulkTitle.trim();
     const savedDate = bulkDate;
+
     // Kumpulkan siswa yang nilainya diisi
     const entries = allStudents
       .map(st => ({ st, scoreStr: bulkScores[st.id] }))
@@ -103,45 +104,50 @@ export default function NilaiPage() {
 
     if (entries.length === 0) { setBulkSaving(false); return; }
 
-    // Update grades untuk semua siswa sekaligus (local state dulu)
-    setGrades(prev => {
-      const clone = JSON.parse(JSON.stringify(prev));
-      entries.forEach(({ st, scoreStr }) => {
-        const score = parseInt(scoreStr);
-        if (isNaN(score) || score < 0 || score > 100) return;
-        if (!clone[st.id]) clone[st.id] = {};
-        if (!clone[st.id][activeSubject]) clone[st.id][activeSubject] = { tugas: [], ulangan: [] };
-        clone[st.id][activeSubject][activeTab].push({
-          id: `${activeTab}-bulk-${st.id}-${Date.now()}`,
-          title: bulkTitle.trim(),
-          score,
-          date: bulkDate,
-          // nilai 0 = anak belum mengumpulkan tugas → tandai otomatis
+    // Simpan via addGrade saja (sudah update state + server di dalamnya)
+    // JANGAN panggil setGrades manual agar tidak dobel
+    const zeroStudents = [];
+    for (const { st, scoreStr } of entries) {
+      const score = parseInt(scoreStr);
+      if (isNaN(score) || score < 0 || score > 100) continue;
+      if (score === 0) zeroStudents.push(st.name);
+      try {
+        await addGrade({
+          studentId: st.id, subjectId: activeSubject, type: activeTab,
+          title: savedTitle, score, date: savedDate,
           status: score === 0 ? 'missing' : 'submitted',
         });
-      });
-      return clone;
-    });
-
-    // Coba simpan ke server via addGrade untuk tiap siswa
-    if (addGrade) {
-      for (const { st, scoreStr } of entries) {
-        const score = parseInt(scoreStr);
-        if (isNaN(score) || score < 0 || score > 100) continue;
-        try {
-          await addGrade({
-            studentId: st.id, subjectId: activeSubject, type: activeTab,
-            title: bulkTitle.trim(), score, date: bulkDate,
-            status: score === 0 ? 'missing' : 'submitted',
-          });
-        } catch (_) { /* sudah disimpan di local state */ }
+      } catch (_) {
+        // fallback manual hanya jika addGrade benar-benar gagal
+        setGrades(prev => {
+          const clone = JSON.parse(JSON.stringify(prev));
+          if (!clone[st.id]) clone[st.id] = {};
+          if (!clone[st.id][activeSubject]) clone[st.id][activeSubject] = { tugas: [], ulangan: [] };
+          // cegah dobel: cek apakah sudah ada entri dengan judul+tanggal yang sama
+          const existing = clone[st.id][activeSubject][activeTab];
+          const alreadyAdded = existing.some(x => x.title === savedTitle && x.date === savedDate);
+          if (!alreadyAdded) {
+            existing.push({
+              id: `${activeTab}-bulk-${st.id}-${Date.now()}`,
+              title: savedTitle, score, date: savedDate,
+              status: score === 0 ? 'missing' : 'submitted',
+            });
+          }
+          return clone;
+        });
       }
     }
 
-    const zeroStudents = entries.filter(({ scoreStr }) => parseInt(scoreStr) === 0).map(({ st }) => st.name);
-    resetBulkForm();
+    // Reset form DAN bulkSaving setelah semua selesai
+    setBulkTitle('');
+    setBulkDate(new Date().toISOString().split('T')[0]);
+    setBulkScores({});
+    setBulkStep('entry');
+    setShowBulkForm(false);
+    setBulkSaving(false); // ← reset agar tombol Simpan bisa diklik lagi
+
     if (zeroStudents.length > 0) {
-      alert(`✅ Berhasil! Entri "${savedTitle}" (${savedDate}) tersimpan untuk ${entries.length} siswa.\n\n⚠️ PEMBERITAHUAN: ${zeroStudents.length} siswa diberi nilai 0 dan otomatis ditandai "Belum Mengumpulkan" di Ceklis Tugas:\n• ${zeroStudents.join('\n• ')}\n\nLaporan "Belum Mengumpulkan" dapat dilihat di menu Laporan Tugas Selesai.`);
+      alert(`✅ Berhasil! Entri "${savedTitle}" (${savedDate}) tersimpan untuk ${entries.length} siswa.\n\n⚠️ PEMBERITAHUAN: ${zeroStudents.length} siswa diberi nilai 0 dan otomatis ditandai "Belum Mengumpulkan":\n• ${zeroStudents.join('\n• ')}`);
     } else {
       alert(`✅ Berhasil! Entri "${savedTitle}" (${savedDate}) tersimpan untuk ${entries.length} siswa.`);
     }
@@ -160,14 +166,13 @@ export default function NilaiPage() {
     if (!formTitle.trim() || isNaN(score) || score < 0 || score > 100) return;
 
     if (editId) {
+      // Edit entri yang sudah ada
       if (editGrade) {
-        try {
-          await editGrade(editId, {
-            studentId, subjectId: activeSubject, type: activeTab,
-            title: formTitle, score, date: formDate,
-          });
-        } catch (_) {
-          // fallback ke local update
+        await editGrade(editId, {
+          studentId, subjectId: activeSubject, type: activeTab,
+          title: formTitle, score, date: formDate,
+        }).catch(() => {
+          // fallback lokal jika server gagal
           setGrades(prev => {
             const clone = JSON.parse(JSON.stringify(prev));
             const list = clone[studentId]?.[activeSubject]?.[activeTab] || [];
@@ -175,7 +180,7 @@ export default function NilaiPage() {
             if (idx > -1) list[idx] = { ...list[idx], title: formTitle, score, date: formDate };
             return clone;
           });
-        }
+        });
       } else {
         setGrades(prev => {
           const clone = JSON.parse(JSON.stringify(prev));
@@ -186,15 +191,13 @@ export default function NilaiPage() {
         });
       }
     } else {
-      // Tambah baru
+      // Tambah entri baru — gunakan addGrade saja, JANGAN setGrades manual agar tidak dobel
       if (addGrade) {
-        try {
-          await addGrade({
-            studentId, subjectId: activeSubject, type: activeTab,
-            title: formTitle, score, date: formDate,
-          });
-        } catch (_) {
-          // fallback ke local insert
+        await addGrade({
+          studentId, subjectId: activeSubject, type: activeTab,
+          title: formTitle, score, date: formDate,
+        }).catch(() => {
+          // fallback lokal hanya jika addGrade benar-benar gagal
           setGrades(prev => {
             const clone = JSON.parse(JSON.stringify(prev));
             if (!clone[studentId]) clone[studentId] = {};
@@ -204,7 +207,7 @@ export default function NilaiPage() {
             });
             return clone;
           });
-        }
+        });
       } else {
         setGrades(prev => {
           const clone = JSON.parse(JSON.stringify(prev));
