@@ -547,9 +547,7 @@ export default function NilaiPage() {
                   </tbody>
                 </table>
               </div>
-              <p className="text-[10px] text-amber-600 dark:text-amber-400 font-medium">
-                💡 Siswa yang kolom nilainya dikosongkan tidak akan mendapat entri.
-              </p>
+
               <div className="flex flex-wrap gap-2 justify-end">
                 <button onClick={resetBulkForm} className="px-4 py-1.5 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-2xl flex items-center gap-1">
                   <X className="w-3.5 h-3.5" /> Batal
