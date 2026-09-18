@@ -330,8 +330,8 @@ export default function Reports({ parentAccess = false }) {
 
   // Clean, short public parent link (no query params)
   const parentLink = (() => {
-    const origin = window.location.hostname === 'localhost'
-      ? 'https://edupogres.vercel.app'
+    const origin = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ? 'https://eduprogras.vercel.app'
       : window.location.origin;
     return `${origin}/ortu/${targetStudent?.id}`;
   })();

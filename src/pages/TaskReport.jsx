@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { INITIAL_STUDENTS, INITIAL_SUBJECTS } from '../data/initialData';
+import { setState } from '../utils/syncStore';
 import GlassCard from '../components/GlassCard';
 import {
   CheckSquare, Printer, Send, CheckCircle2, XCircle, X,
@@ -137,13 +138,43 @@ export default function TaskReport() {
     );
   };
 
-  // ── WhatsApp message ──────────────────────────────────────────────────────
-  const reportPayload = encodeURIComponent(JSON.stringify(reportTasks.map(({ id, title, date, score, subName, status, type }) => ({ id, title, date, score, subName, status, type }))));
-  const parentLink = `${window.location.origin}/ortu/${studentId}?report=tasks&t=${reportPayload}`;
+  // ── Simpan Snapshot Laporan Tugas ke Server + Cache Lokal ────────────────
+  const saveReportSnapshot = useCallback(() => {
+    if (!studentId) return;
+    const isAllSelected = selectedReportSubjects.length === subjectList.length;
+    const payload = {
+      studentId,
+      selectedSubjects: selectedReportSubjects,
+      isAllSelected,
+      tasks: reportTasks.map(({ id, title, date, score, subName, subId, status, type }) => ({
+        id, title, date, score, subName, subId, status, type
+      })),
+      updatedAt: new Date().toISOString()
+    };
+    setState(`taskReport_${studentId}`, payload);
+  }, [studentId, selectedReportSubjects, subjectList.length, reportTasks]);
+
+  // Sinkronkan otomatis saat ada perubahan pilihan mapel atau data tugas
+  useEffect(() => {
+    saveReportSnapshot();
+  }, [saveReportSnapshot]);
+
+  // ── Link Singkat & Bersih untuk Orang Tua ──────────────────────────────────
+  const parentLink = useMemo(() => {
+    const origin = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ? 'https://eduprogras.vercel.app'
+      : window.location.origin;
+    const isAllSelected = selectedReportSubjects.length === subjectList.length;
+    const subParam = (!isAllSelected && selectedReportSubjects.length > 0)
+      ? `&sub=${selectedReportSubjects.join(',')}`
+      : '';
+    return `${origin}/ortu/${studentId}?report=tasks${subParam}`;
+  }, [studentId, selectedReportSubjects, subjectList.length]);
 
   const buildWaMessage = () => `Assalamu'alaikum Wr. Wb. Yth. ${currentStudent.parentName},\n\nBerikut *Laporan Pengumpulan Tugas* ananda *${currentStudent.name}* (${currentStudent.className}).\n\n📚 Total tugas dilaporkan: ${reportTasks.length}\n✅ Sudah mengumpulkan: ${reportSubmittedTasks.length}\n⚠️ Belum mengumpulkan: ${reportMissingCount}\n📊 Rata-rata nilai: ${reportAverage}\n\nLaporan lengkap dapat dilihat melalui tautan berikut:\n${parentLink}\n\n-- ${currentStudent.homeroomTeacher}`;
 
   const copyParentLink = async () => {
+    saveReportSnapshot();
     try {
       await navigator.clipboard.writeText(parentLink);
       setLinkCopied(true);
@@ -154,6 +185,7 @@ export default function TaskReport() {
   };
 
   const sendWA = () => {
+    saveReportSnapshot();
     const phone = currentStudent.parentPhone || '6281234567891';
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(buildWaMessage())}`, '_blank');
     setShowWaModal(false);

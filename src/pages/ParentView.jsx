@@ -17,7 +17,7 @@ export default function ParentView() {
   const { studentId } = useParams();
   const [searchParams] = useSearchParams();
   const { students, tpData: globalTpData } = useAuth();
-  const isTaskReport = searchParams.get('report') === 'tasks';
+  const isTaskReport = searchParams.get('report') === 'tasks' || searchParams.get('r') === 'tasks';
 
   let selectedChapters = null;
   try {
@@ -54,12 +54,22 @@ export default function ParentView() {
   }
 
   if (isTaskReport) {
-    let tasks = [];
+    let legacyTasks = null;
     try {
       const encodedTasks = searchParams.get('t');
-      if (encodedTasks) tasks = JSON.parse(encodedTasks);
-    } catch (error) { /* Link tetap menampilkan laporan kosong jika data rusak */ }
-    return <ParentTaskReport student={student} tasks={tasks} />;
+      if (encodedTasks) legacyTasks = JSON.parse(encodedTasks);
+    } catch (error) { /* Link tetap menampilkan laporan jika format lama rusak */ }
+
+    const subParam = searchParams.get('sub') || searchParams.get('s');
+    const selectedSubjects = subParam ? subParam.split(',').map(s => s.trim()).filter(Boolean) : null;
+
+    return (
+      <ParentTaskReport
+        student={student}
+        legacyTasks={legacyTasks}
+        selectedSubjects={selectedSubjects}
+      />
+    );
   }
 
   return <ParentReport student={student} selectedChapters={selectedChapters} />;
