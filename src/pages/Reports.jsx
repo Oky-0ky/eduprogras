@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useSearchParams, useParams } from 'react-router-dom';
 import { FileSpreadsheet, Printer, Download, FileText, CheckCircle2, Share2, ChevronDown, Clock, Filter, CheckSquare, Square, BookOpen, Link as LinkIcon, TrendingUp, Award, Target, Edit3, Save, X, Sparkles, SlidersHorizontal } from 'lucide-react';
+import { INITIAL_STUDENTS } from '../data/initialData';
 import { saveSentReport } from '../utils/reportArchive';
 import { setState, getState } from '../utils/syncStore';
 
@@ -133,7 +134,7 @@ export default function Reports({ parentAccess = false }) {
 
   const routeStudentId = params.studentId || searchParams.get('student');
   const studentId = routeStudentId || selectedStudent?.id;
-  const targetStudent = students.find((item) => item.id === studentId) || selectedStudent;
+  const targetStudent = students?.find((item) => item.id === studentId) || selectedStudent || INITIAL_STUDENTS[0];
   const isParentView = parentAccess || searchParams.get('mode') === 'parent';
 
   // Per-student TP status and notes overrides
@@ -142,7 +143,8 @@ export default function Reports({ parentAccess = false }) {
   const [prePostByStudent, setPrePostByStudent] = useState({});
   const [displayOptionsByStudent, setDisplayOptionsByStudent] = useState(() => {
     const map = {};
-    INITIAL_STUDENTS.forEach(s => {
+    const list = (students && students.length > 0) ? students : INITIAL_STUDENTS;
+    list.forEach(s => {
       try {
         const stored = JSON.parse(localStorage.getItem(`tpDisplayOptions_${s.id}`) || 'null');
         if (stored && typeof stored === 'object') {
