@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useSearchParams, useParams } from 'react-router-dom';
-import { FileSpreadsheet, Printer, Download, FileText, CheckCircle2, Share2, ChevronDown, Clock, Filter, CheckSquare, Square, BookOpen, Link as LinkIcon, TrendingUp, Award, Target, Edit3, Save, X, Sparkles } from 'lucide-react';
+import { FileSpreadsheet, Printer, Download, FileText, CheckCircle2, Share2, ChevronDown, Clock, Filter, CheckSquare, Square, BookOpen, Link as LinkIcon, TrendingUp, Award, Target, Edit3, Save, X, Sparkles, SlidersHorizontal } from 'lucide-react';
 import { saveSentReport } from '../utils/reportArchive';
 import { setState, getState } from '../utils/syncStore';
+
+export const DEFAULT_DISPLAY_OPTIONS = {
+  showPreTest: true,
+  showPostTest: true,
+  showTotalPoints: true
+};
 
 const statusStyles = {
   'Sangat Paham': 'bg-emerald-100 text-emerald-700 border-emerald-200',
@@ -134,6 +140,18 @@ export default function Reports({ parentAccess = false }) {
   const [tpStatusByStudent, setTpStatusByStudent] = useState({});
   const [tpNotesByStudent, setTpNotesByStudent] = useState({});
   const [prePostByStudent, setPrePostByStudent] = useState({});
+  const [displayOptionsByStudent, setDisplayOptionsByStudent] = useState(() => {
+    const map = {};
+    INITIAL_STUDENTS.forEach(s => {
+      try {
+        const stored = JSON.parse(localStorage.getItem(`tpDisplayOptions_${s.id}`) || 'null');
+        if (stored && typeof stored === 'object') {
+          map[s.id] = { ...DEFAULT_DISPLAY_OPTIONS, ...stored };
+        }
+      } catch (_) {}
+    });
+    return map;
+  });
   const [editingPrePost, setEditingPrePost] = useState(null); // { chapTitle, preTest, postTest }
   const [activeNoteKey, setActiveNoteKey] = useState(null); // Key of TP currently having its note input open
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -185,12 +203,20 @@ export default function Reports({ parentAccess = false }) {
     let localOverrides = {};
     let localNotes = {};
     let localPrePost = {};
+    let localDisplayOptions = null;
     try { localOverrides = JSON.parse(localStorage.getItem(`tpStatus_${studentKey}`) || '{}'); } catch (_) {}
     try { localNotes    = JSON.parse(localStorage.getItem(`tpNotes_${studentKey}`)  || '{}'); } catch (_) {}
     try { localPrePost  = JSON.parse(localStorage.getItem(`tpPrePost_${studentKey}`) || '{}'); } catch (_) {}
+    try { localDisplayOptions = JSON.parse(localStorage.getItem(`tpDisplayOptions_${studentKey}`) || 'null'); } catch (_) {}
 
     if (Object.keys(localPrePost).length > 0) {
       setPrePostByStudent(prev => ({ ...prev, [studentKey]: localPrePost }));
+    }
+    if (localDisplayOptions && typeof localDisplayOptions === 'object') {
+      setDisplayOptionsByStudent(prev => ({
+        ...prev,
+        [studentKey]: { ...DEFAULT_DISPLAY_OPTIONS, ...localDisplayOptions }
+      }));
     }
     if (Object.keys(localOverrides).length > 0 || Object.keys(localNotes).length > 0) {
       setTpNotesByStudent(prev => ({ ...prev, [studentKey]: localNotes }));
@@ -215,6 +241,13 @@ export default function Reports({ parentAccess = false }) {
         }));
         try { localStorage.setItem(`tpPrePost_${studentKey}`, JSON.stringify(cloudPrePost)); } catch (_) {}
       }
+      if (cloudData.displayOptions && typeof cloudData.displayOptions === 'object') {
+        setDisplayOptionsByStudent(prev => ({
+          ...prev,
+          [studentKey]: { ...DEFAULT_DISPLAY_OPTIONS, ...cloudData.displayOptions }
+        }));
+        try { localStorage.setItem(`tpDisplayOptions_${studentKey}`, JSON.stringify(cloudData.displayOptions)); } catch (_) {}
+      }
       if (cloudData.selectedChapters) setSelectedChapters(cloudData.selectedChapters);
 
       setTpNotesByStudent(prev => {
@@ -231,6 +264,62 @@ export default function Reports({ parentAccess = false }) {
 
     return () => { cancelled = true; };
   }, [studentKey, globalTpData]);
+
+  const displayOptions = displayOptionsByStudent[studentKey] || DEFAULT_DISPLAY_OPTIONS;
+
+  const handleToggleDisplayOption = (optionKey) => {
+    if (!studentKey) return;
+    const current = displayOptionsByStudent[studentKey] || { ...DEFAULT_DISPLAY_OPTIONS };
+    const updated = {
+      ...current,
+      [optionKey]: !current[optionKey]
+    };
+
+    setDisplayOptionsByStudent(prev => ({
+      ...prev,
+      [studentKey]: updated
+    }));
+
+    try {
+      localStorage.setItem(`tpDisplayOptions_${studentKey}`, JSON.stringify(updated));
+    } catch (_) {}
+
+    setState(`tpReport_${studentKey}`, {
+      notes: tpNotesByStudent[studentKey] || {},
+      status: (tpStatusByStudent[studentKey] || {}).overrides || {},
+      selectedChapters,
+      prePost: prePostByStudent[studentKey] || {},
+      displayOptions: updated,
+      updatedAt: new Date().toISOString()
+    });
+  };
+
+  const handleSetAllDisplayOptions = (value) => {
+    if (!studentKey) return;
+    const updated = {
+      showPreTest: Boolean(value),
+      showPostTest: Boolean(value),
+      showTotalPoints: Boolean(value)
+    };
+
+    setDisplayOptionsByStudent(prev => ({
+      ...prev,
+      [studentKey]: updated
+    }));
+
+    try {
+      localStorage.setItem(`tpDisplayOptions_${studentKey}`, JSON.stringify(updated));
+    } catch (_) {}
+
+    setState(`tpReport_${studentKey}`, {
+      notes: tpNotesByStudent[studentKey] || {},
+      status: (tpStatusByStudent[studentKey] || {}).overrides || {},
+      selectedChapters,
+      prePost: prePostByStudent[studentKey] || {},
+      displayOptions: updated,
+      updatedAt: new Date().toISOString()
+    });
+  };
 
   const getPrePostScores = (chapTitle) => {
     const studentScores = prePostByStudent[studentKey] || {};
@@ -256,6 +345,7 @@ export default function Reports({ parentAccess = false }) {
       status: (tpStatusByStudent[studentKey] || {}).overrides || {},
       selectedChapters,
       prePost: updated,
+      displayOptions: displayOptionsByStudent[studentKey] || DEFAULT_DISPLAY_OPTIONS,
       updatedAt: new Date().toISOString()
     });
     setEditingPrePost(null);
@@ -299,6 +389,7 @@ export default function Reports({ parentAccess = false }) {
       status: newOverrides,
       selectedChapters,
       prePost: prePostByStudent[key] || {},
+      displayOptions: displayOptionsByStudent[key] || DEFAULT_DISPLAY_OPTIONS,
       updatedAt: new Date().toISOString()
     });
   };
@@ -324,16 +415,25 @@ export default function Reports({ parentAccess = false }) {
       status: currentOverrides,
       selectedChapters,
       prePost: prePostByStudent[key] || {},
+      displayOptions: displayOptionsByStudent[key] || DEFAULT_DISPLAY_OPTIONS,
       updatedAt: new Date().toISOString()
     });
   };
 
-  // Clean, short public parent link (no query params)
+  // Clean, short public parent link (no query params by default, or short ?hide= if modified)
   const parentLink = (() => {
     const origin = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
       ? 'https://eduprogras.vercel.app'
       : window.location.origin;
-    return `${origin}/ortu/${targetStudent?.id}`;
+
+    const currentDisplay = displayOptionsByStudent[studentKey] || DEFAULT_DISPLAY_OPTIONS;
+    const hiddenItems = [];
+    if (!currentDisplay.showPreTest) hiddenItems.push('pre');
+    if (!currentDisplay.showPostTest) hiddenItems.push('post');
+    if (!currentDisplay.showTotalPoints) hiddenItems.push('pts');
+
+    const hideQuery = hiddenItems.length > 0 ? `?hide=${hiddenItems.join(',')}` : '';
+    return `${origin}/ortu/${targetStudent?.id}${hideQuery}`;
   })();
 
   const handleCopyLink = () => {
@@ -466,6 +566,120 @@ SDQ Madani Al Washiyyah`;
           >
             {linkCopied ? '✓ Tersalin!' : 'Salin Link'}
           </button>
+        </div>
+      )}
+
+      {/* OPSI TAMPILAN NILAI: Pre-Test, Post-Test, Total Point (Teacher View Only) */}
+      {!isParentView && (
+        <div className="no-print p-4 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-teal-500/10 dark:bg-teal-400/20 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0">
+                <SlidersHorizontal className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="font-black text-xs uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                  Opsi Tampilan Nilai di Laporan Orang Tua
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-teal-50 dark:bg-teal-950/50 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
+                    {[displayOptions.showPreTest, displayOptions.showPostTest, displayOptions.showTotalPoints].filter(Boolean).length}/3 Aktif
+                  </span>
+                </h3>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                  Klik tombol untuk menampilkan atau menyembunyikan komponen nilai sebelum dibagikan ke orang tua.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={() => handleSetAllDisplayOptions(true)}
+                className="px-2.5 py-1 text-[10px] font-black rounded-xl bg-teal-50 dark:bg-teal-950/50 text-teal-700 dark:text-teal-300 hover:bg-teal-100 transition border border-teal-200 dark:border-teal-800"
+              >
+                Tampilkan Semua
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSetAllDisplayOptions(false)}
+                className="px-2.5 py-1 text-[10px] font-black rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition border border-slate-200 dark:border-slate-700"
+              >
+                Sembunyikan Semua
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            {/* Toggle Pre-Test */}
+            <button
+              type="button"
+              onClick={() => handleToggleDisplayOption('showPreTest')}
+              className={`flex items-center justify-between p-3 rounded-2xl border transition-all text-left ${
+                displayOptions.showPreTest
+                  ? 'bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 border-orange-300 dark:border-orange-800 text-orange-950 dark:text-orange-100 shadow-sm'
+                  : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 text-slate-400 opacity-60 hover:opacity-90'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="text-lg">📝</span>
+                <div>
+                  <p className="text-xs font-black">Nilai Pre-Test</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                    {displayOptions.showPreTest ? '🟢 Tampil di Laporan' : '⚪ Disembunyikan'}
+                  </p>
+                </div>
+              </div>
+              <div className={`w-9 h-5 rounded-full p-0.5 transition-colors duration-200 ease-in-out shrink-0 ${displayOptions.showPreTest ? 'bg-orange-500' : 'bg-slate-300 dark:bg-slate-700'}`}>
+                <div className={`w-4 h-4 rounded-full bg-white shadow-md transform transition-transform duration-200 ease-in-out ${displayOptions.showPreTest ? 'translate-x-4' : 'translate-x-0'}`} />
+              </div>
+            </button>
+
+            {/* Toggle Post-Test */}
+            <button
+              type="button"
+              onClick={() => handleToggleDisplayOption('showPostTest')}
+              className={`flex items-center justify-between p-3 rounded-2xl border transition-all text-left ${
+                displayOptions.showPostTest
+                  ? 'bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20 border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-100 shadow-sm'
+                  : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 text-slate-400 opacity-60 hover:opacity-90'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="text-lg">✅</span>
+                <div>
+                  <p className="text-xs font-black">Nilai Post-Test</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                    {displayOptions.showPostTest ? '🟢 Tampil di Laporan' : '⚪ Disembunyikan'}
+                  </p>
+                </div>
+              </div>
+              <div className={`w-9 h-5 rounded-full p-0.5 transition-colors duration-200 ease-in-out shrink-0 ${displayOptions.showPostTest ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-700'}`}>
+                <div className={`w-4 h-4 rounded-full bg-white shadow-md transform transition-transform duration-200 ease-in-out ${displayOptions.showPostTest ? 'translate-x-4' : 'translate-x-0'}`} />
+              </div>
+            </button>
+
+            {/* Toggle Total Point */}
+            <button
+              type="button"
+              onClick={() => handleToggleDisplayOption('showTotalPoints')}
+              className={`flex items-center justify-between p-3 rounded-2xl border transition-all text-left ${
+                displayOptions.showTotalPoints
+                  ? 'bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-950/30 dark:to-indigo-950/20 border-purple-300 dark:border-purple-800 text-purple-950 dark:text-purple-100 shadow-sm'
+                  : 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 text-slate-400 opacity-60 hover:opacity-90'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="text-lg">🏆</span>
+                <div>
+                  <p className="text-xs font-black">Total Point Bab</p>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                    {displayOptions.showTotalPoints ? '🟢 Tampil di Laporan' : '⚪ Disembunyikan'}
+                  </p>
+                </div>
+              </div>
+              <div className={`w-9 h-5 rounded-full p-0.5 transition-colors duration-200 ease-in-out shrink-0 ${displayOptions.showTotalPoints ? 'bg-purple-500' : 'bg-slate-300 dark:bg-slate-700'}`}>
+                <div className={`w-4 h-4 rounded-full bg-white shadow-md transform transition-transform duration-200 ease-in-out ${displayOptions.showTotalPoints ? 'translate-x-4' : 'translate-x-0'}`} />
+              </div>
+            </button>
+          </div>
         </div>
       )}
 
@@ -606,68 +820,94 @@ SDQ Madani Al Washiyyah`;
                   </div>
 
                   {/* Pre-Test & Post-Test + Total Points per Bab */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                    {/* Pre-Test */}
-                    <div className="flex items-center gap-2 rounded-2xl border border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/40 dark:to-amber-950/30 px-3 py-2">
-                      <div className="w-7 h-7 rounded-xl bg-orange-400 flex items-center justify-center shrink-0">
-                        <span className="text-white text-[10px] font-black">📝</span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[9px] font-black uppercase tracking-[0.15em] text-orange-600 dark:text-orange-400">Pre-Test</p>
-                        {isEditingThis ? (
-                          <input type="number" min="0" max="100" defaultValue={editingPrePost.preTest}
-                            onChange={e => setEditingPrePost(p => ({ ...p, preTest: e.target.value }))}
-                            className="w-16 text-sm font-black text-orange-700 bg-white dark:bg-slate-800 border border-orange-300 rounded-lg px-1.5 py-0.5" />
-                        ) : (
-                          <p className="text-lg font-black text-orange-700 dark:text-orange-300 leading-tight">{scores.preTest}<span className="text-[10px] font-bold text-orange-400 ml-0.5">/100</span></p>
+                  {(() => {
+                    const visibleScores = [
+                      displayOptions.showPreTest && 'pre',
+                      displayOptions.showPostTest && 'post',
+                      displayOptions.showTotalPoints && 'pts'
+                    ].filter(Boolean);
+
+                    if (visibleScores.length === 0) return null;
+
+                    const gridCols = visibleScores.length === 1
+                      ? 'grid-cols-1'
+                      : visibleScores.length === 2
+                        ? 'grid-cols-1 sm:grid-cols-2'
+                        : 'grid-cols-1 sm:grid-cols-3';
+
+                    return (
+                      <div className={`grid ${gridCols} gap-2`}>
+                        {/* Pre-Test */}
+                        {displayOptions.showPreTest && (
+                          <div className="flex items-center gap-2 rounded-2xl border border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/40 dark:to-amber-950/30 px-3 py-2">
+                            <div className="w-7 h-7 rounded-xl bg-orange-400 flex items-center justify-center shrink-0">
+                              <span className="text-white text-[10px] font-black">📝</span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[9px] font-black uppercase tracking-[0.15em] text-orange-600 dark:text-orange-400">Pre-Test</p>
+                              {isEditingThis ? (
+                                <input type="number" min="0" max="100" defaultValue={editingPrePost.preTest}
+                                  onChange={e => setEditingPrePost(p => ({ ...p, preTest: e.target.value }))}
+                                  className="w-16 text-sm font-black text-orange-700 bg-white dark:bg-slate-800 border border-orange-300 rounded-lg px-1.5 py-0.5" />
+                              ) : (
+                                <p className="text-lg font-black text-orange-700 dark:text-orange-300 leading-tight">{scores.preTest}<span className="text-[10px] font-bold text-orange-400 ml-0.5">/100</span></p>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Post-Test */}
+                        {displayOptions.showPostTest && (
+                          <div className="flex items-center gap-2 rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/30 px-3 py-2">
+                            <div className="w-7 h-7 rounded-xl bg-emerald-500 flex items-center justify-center shrink-0">
+                              <span className="text-white text-[10px] font-black">✅</span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[9px] font-black uppercase tracking-[0.15em] text-emerald-600 dark:text-emerald-400">Post-Test</p>
+                              {isEditingThis ? (
+                                <input type="number" min="0" max="100" defaultValue={editingPrePost.postTest}
+                                  onChange={e => setEditingPrePost(p => ({ ...p, postTest: e.target.value }))}
+                                  className="w-16 text-sm font-black text-emerald-700 bg-white dark:bg-slate-800 border border-emerald-300 rounded-lg px-1.5 py-0.5" />
+                              ) : (
+                                <p className="text-lg font-black text-emerald-700 dark:text-emerald-300 leading-tight">{scores.postTest}<span className="text-[10px] font-bold text-emerald-400 ml-0.5">/100</span></p>
+                              )}
+                            </div>
+                            {scores.postTest > scores.preTest && (
+                              <span className="text-[9px] font-black text-emerald-600 bg-emerald-100 dark:bg-emerald-900/40 px-1.5 py-0.5 rounded-full">
+                                +{scores.postTest - scores.preTest}
+                              </span>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Total Points Bab */}
+                        {displayOptions.showTotalPoints && (
+                          <div className="flex items-center gap-2 rounded-2xl border border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-950/40 dark:to-indigo-950/30 px-3 py-2">
+                            <div className="w-7 h-7 rounded-xl bg-purple-500 flex items-center justify-center shrink-0">
+                              <Award className="w-3.5 h-3.5 text-white" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[9px] font-black uppercase tracking-[0.15em] text-purple-600 dark:text-purple-400">Total Point</p>
+                              <p className="text-lg font-black text-purple-700 dark:text-purple-300 leading-tight">{chapTotalPoints}<span className="text-[10px] font-bold text-purple-400 ml-0.5">/{chapMaxPoints}</span></p>
+                            </div>
+                            <div className="w-10 h-10 relative">
+                              <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                                <circle cx="18" cy="18" r="14" fill="none" stroke="#e2e8f0" strokeWidth="3" />
+                                <circle cx="18" cy="18" r="14" fill="none" stroke="#a855f7" strokeWidth="3"
+                                  strokeDasharray={`${chapMaxPoints > 0 ? (chapTotalPoints / chapMaxPoints) * 88 : 0} 88`}
+                                  strokeLinecap="round" />
+                              </svg>
+                              <span className="absolute inset-0 flex items-center justify-center text-[8px] font-black text-purple-600">
+                                {chapMaxPoints > 0 ? Math.round(chapTotalPoints / chapMaxPoints * 100) : 0}%
+                              </span>
+                            </div>
+                          </div>
                         )}
                       </div>
-                    </div>
-                    {/* Post-Test */}
-                    <div className="flex items-center gap-2 rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/30 px-3 py-2">
-                      <div className="w-7 h-7 rounded-xl bg-emerald-500 flex items-center justify-center shrink-0">
-                        <span className="text-white text-[10px] font-black">✅</span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[9px] font-black uppercase tracking-[0.15em] text-emerald-600 dark:text-emerald-400">Post-Test</p>
-                        {isEditingThis ? (
-                          <input type="number" min="0" max="100" defaultValue={editingPrePost.postTest}
-                            onChange={e => setEditingPrePost(p => ({ ...p, postTest: e.target.value }))}
-                            className="w-16 text-sm font-black text-emerald-700 bg-white dark:bg-slate-800 border border-emerald-300 rounded-lg px-1.5 py-0.5" />
-                        ) : (
-                          <p className="text-lg font-black text-emerald-700 dark:text-emerald-300 leading-tight">{scores.postTest}<span className="text-[10px] font-bold text-emerald-400 ml-0.5">/100</span></p>
-                        )}
-                      </div>
-                      {scores.postTest > scores.preTest && (
-                        <span className="text-[9px] font-black text-emerald-600 bg-emerald-100 dark:bg-emerald-900/40 px-1.5 py-0.5 rounded-full">
-                          +{scores.postTest - scores.preTest}
-                        </span>
-                      )}
-                    </div>
-                    {/* Total Points Bab */}
-                    <div className="flex items-center gap-2 rounded-2xl border border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-950/40 dark:to-indigo-950/30 px-3 py-2">
-                      <div className="w-7 h-7 rounded-xl bg-purple-500 flex items-center justify-center shrink-0">
-                        <Award className="w-3.5 h-3.5 text-white" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[9px] font-black uppercase tracking-[0.15em] text-purple-600 dark:text-purple-400">Total Point</p>
-                        <p className="text-lg font-black text-purple-700 dark:text-purple-300 leading-tight">{chapTotalPoints}<span className="text-[10px] font-bold text-purple-400 ml-0.5">/{chapMaxPoints}</span></p>
-                      </div>
-                      <div className="w-10 h-10 relative">
-                        <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                          <circle cx="18" cy="18" r="14" fill="none" stroke="#e2e8f0" strokeWidth="3" />
-                          <circle cx="18" cy="18" r="14" fill="none" stroke="#a855f7" strokeWidth="3"
-                            strokeDasharray={`${chapMaxPoints > 0 ? (chapTotalPoints / chapMaxPoints) * 88 : 0} 88`}
-                            strokeLinecap="round" />
-                        </svg>
-                        <span className="absolute inset-0 flex items-center justify-center text-[8px] font-black text-purple-600">
-                          {chapMaxPoints > 0 ? Math.round(chapTotalPoints / chapMaxPoints * 100) : 0}%
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                    );
+                  })()}
                   {/* Edit Pre/Post Button (teacher only) */}
-                  {!isParentView && (
+                  {!isParentView && (displayOptions.showPreTest || displayOptions.showPostTest) && (
                     <div className="no-print flex items-center gap-2 pl-1">
                       {isEditingThis ? (
                         <>

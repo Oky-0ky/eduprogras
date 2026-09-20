@@ -32,6 +32,25 @@ export default function ParentReport({ student, selectedChapters = null }) {
   const [tpNoteOverrides, setTpNoteOverrides] = useState({});
   const [prePostOverrides, setPrePostOverrides] = useState({});
   const [expandedSubjects, setExpandedSubjects] = useState({});
+  const [displayOptions, setDisplayOptions] = useState(() => {
+    let opts = { showPreTest: true, showPostTest: true, showTotalPoints: true };
+    if (typeof window !== 'undefined') {
+      try {
+        const searchParams = new URLSearchParams(window.location.search);
+        const hideParam = searchParams.get('hide');
+        if (hideParam) {
+          const hides = hideParam.toLowerCase().split(',').map(s => s.trim());
+          if (hides.includes('pre') || hides.includes('pretest')) opts.showPreTest = false;
+          if (hides.includes('post') || hides.includes('posttest')) opts.showPostTest = false;
+          if (hides.includes('pts') || hides.includes('point') || hides.includes('points') || hides.includes('totalpoint')) opts.showTotalPoints = false;
+        } else if (student?.id) {
+          const local = JSON.parse(localStorage.getItem(`tpDisplayOptions_${student.id}`) || 'null');
+          if (local && typeof local === 'object') opts = { ...opts, ...local };
+        }
+      } catch (_) {}
+    }
+    return opts;
+  });
 
   // Load saved statuses, teacher notes, and pre/post test scores
   // Prioritas: localStorage → URL params → cloud sync
@@ -47,6 +66,17 @@ export default function ParentReport({ student, selectedChapters = null }) {
     if (typeof window !== 'undefined') {
       try {
         const searchParams = new URLSearchParams(window.location.search);
+
+        const hideParam = searchParams.get('hide');
+        if (hideParam) {
+          const hides = hideParam.toLowerCase().split(',').map(s => s.trim());
+          setDisplayOptions(prev => ({
+            ...prev,
+            showPreTest: !hides.includes('pre') && !hides.includes('pretest'),
+            showPostTest: !hides.includes('post') && !hides.includes('posttest'),
+            showTotalPoints: !hides.includes('pts') && !hides.includes('point') && !hides.includes('points') && !hides.includes('totalpoint')
+          }));
+        }
 
         const nParam = searchParams.get('n');
         if (nParam) {
@@ -111,6 +141,9 @@ export default function ParentReport({ student, selectedChapters = null }) {
       }
       if (serverData.prePost) {
         setPrePostOverrides(prev => ({ ...prev, ...serverData.prePost }));
+      }
+      if (serverData.displayOptions && typeof serverData.displayOptions === 'object') {
+        setDisplayOptions(prev => ({ ...prev, ...serverData.displayOptions }));
       }
     }).catch(() => {});
 
@@ -200,7 +233,9 @@ export default function ParentReport({ student, selectedChapters = null }) {
           <div>
             <p className="text-xs font-black text-amber-800">📅 {today}</p>
             <p className="text-[10px] text-amber-600 font-bold">
-              Laporan ini menampilkan Nilai Pre-Test/Post-Test & Capaian TP Ananda.
+              {displayOptions.showPreTest || displayOptions.showPostTest
+                ? 'Laporan ini menampilkan Nilai Pre-Test/Post-Test & Capaian TP Ananda.'
+                : 'Laporan ini menampilkan Rincian Capaian TP Ananda.'}
             </p>
           </div>
           <div className="w-8 h-8 bg-amber-200 rounded-xl flex items-center justify-center text-base shrink-0">
@@ -271,56 +306,80 @@ export default function ParentReport({ student, selectedChapters = null }) {
                         </div>
 
                         {/* Pre-Test & Post-Test + Total Points per Bab */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                          {/* Pre-Test */}
-                          <div className="flex items-center gap-2 rounded-2xl border border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50 px-3 py-2">
-                            <div className="w-7 h-7 rounded-xl bg-orange-400 flex items-center justify-center shrink-0">
-                              <span className="text-white text-[10px] font-black">📝</span>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-[9px] font-black uppercase tracking-[0.15em] text-orange-600">Pre-Test</p>
-                              <p className="text-lg font-black text-orange-700 leading-tight">{scores.preTest}<span className="text-[10px] font-bold text-orange-400 ml-0.5">/100</span></p>
-                            </div>
-                          </div>
+                        {(() => {
+                          const visibleScores = [
+                            displayOptions.showPreTest && 'pre',
+                            displayOptions.showPostTest && 'post',
+                            displayOptions.showTotalPoints && 'pts'
+                          ].filter(Boolean);
 
-                          {/* Post-Test */}
-                          <div className="flex items-center gap-2 rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 px-3 py-2">
-                            <div className="w-7 h-7 rounded-xl bg-emerald-500 flex items-center justify-center shrink-0">
-                              <span className="text-white text-[10px] font-black">✅</span>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-[9px] font-black uppercase tracking-[0.15em] text-emerald-600">Post-Test</p>
-                              <p className="text-lg font-black text-emerald-700 leading-tight">{scores.postTest}<span className="text-[10px] font-bold text-emerald-400 ml-0.5">/100</span></p>
-                            </div>
-                            {scores.postTest > scores.preTest && (
-                              <span className="text-[9px] font-black text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded-full">
-                                +{scores.postTest - scores.preTest}
-                              </span>
-                            )}
-                          </div>
+                          if (visibleScores.length === 0) return null;
 
-                          {/* Total Points Bab */}
-                          <div className="flex items-center gap-2 rounded-2xl border border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50 px-3 py-2">
-                            <div className="w-7 h-7 rounded-xl bg-purple-500 flex items-center justify-center shrink-0">
-                              <Award className="w-3.5 h-3.5 text-white" />
+                          const gridCols = visibleScores.length === 1
+                            ? 'grid-cols-1'
+                            : visibleScores.length === 2
+                              ? 'grid-cols-1 sm:grid-cols-2'
+                              : 'grid-cols-1 sm:grid-cols-3';
+
+                          return (
+                            <div className={`grid ${gridCols} gap-2`}>
+                              {/* Pre-Test */}
+                              {displayOptions.showPreTest && (
+                                <div className="flex items-center gap-2 rounded-2xl border border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50 px-3 py-2">
+                                  <div className="w-7 h-7 rounded-xl bg-orange-400 flex items-center justify-center shrink-0">
+                                    <span className="text-white text-[10px] font-black">📝</span>
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-[9px] font-black uppercase tracking-[0.15em] text-orange-600">Pre-Test</p>
+                                    <p className="text-lg font-black text-orange-700 leading-tight">{scores.preTest}<span className="text-[10px] font-bold text-orange-400 ml-0.5">/100</span></p>
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Post-Test */}
+                              {displayOptions.showPostTest && (
+                                <div className="flex items-center gap-2 rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-teal-50 px-3 py-2">
+                                  <div className="w-7 h-7 rounded-xl bg-emerald-500 flex items-center justify-center shrink-0">
+                                    <span className="text-white text-[10px] font-black">✅</span>
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-[9px] font-black uppercase tracking-[0.15em] text-emerald-600">Post-Test</p>
+                                    <p className="text-lg font-black text-emerald-700 leading-tight">{scores.postTest}<span className="text-[10px] font-bold text-emerald-400 ml-0.5">/100</span></p>
+                                  </div>
+                                  {scores.postTest > scores.preTest && (
+                                    <span className="text-[9px] font-black text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded-full">
+                                      +{scores.postTest - scores.preTest}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+
+                              {/* Total Points Bab */}
+                              {displayOptions.showTotalPoints && (
+                                <div className="flex items-center gap-2 rounded-2xl border border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50 px-3 py-2">
+                                  <div className="w-7 h-7 rounded-xl bg-purple-500 flex items-center justify-center shrink-0">
+                                    <Award className="w-3.5 h-3.5 text-white" />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-[9px] font-black uppercase tracking-[0.15em] text-purple-600">Total Point</p>
+                                    <p className="text-lg font-black text-purple-700 leading-tight">{chapTotalPoints}<span className="text-[10px] font-bold text-purple-400 ml-0.5">/{chapMaxPoints}</span></p>
+                                  </div>
+                                  <div className="w-10 h-10 relative">
+                                    <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                                      <circle cx="18" cy="18" r="14" fill="none" stroke="#e2e8f0" strokeWidth="3" />
+                                      <circle cx="18" cy="18" r="14" fill="none" stroke="#a855f7" strokeWidth="3"
+                                        strokeDasharray={`${chapMaxPoints > 0 ? (chapTotalPoints / chapMaxPoints) * 88 : 0} 88`}
+                                        strokeLinecap="round" />
+                                    </svg>
+                                    <span className="absolute inset-0 flex items-center justify-center text-[8px] font-black text-purple-600">
+                                      {chapMaxPoints > 0 ? Math.round(chapTotalPoints / chapMaxPoints * 100) : 0}%
+                                    </span>
+                                  </div>
+                                </div>
+                              )}
                             </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-[9px] font-black uppercase tracking-[0.15em] text-purple-600">Total Point</p>
-                              <p className="text-lg font-black text-purple-700 leading-tight">{chapTotalPoints}<span className="text-[10px] font-bold text-purple-400 ml-0.5">/{chapMaxPoints}</span></p>
-                            </div>
-                            <div className="w-10 h-10 relative">
-                              <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                                <circle cx="18" cy="18" r="14" fill="none" stroke="#e2e8f0" strokeWidth="3" />
-                                <circle cx="18" cy="18" r="14" fill="none" stroke="#a855f7" strokeWidth="3"
-                                  strokeDasharray={`${chapMaxPoints > 0 ? (chapTotalPoints / chapMaxPoints) * 88 : 0} 88`}
-                                  strokeLinecap="round" />
-                              </svg>
-                              <span className="absolute inset-0 flex items-center justify-center text-[8px] font-black text-purple-600">
-                                {chapMaxPoints > 0 ? Math.round(chapTotalPoints / chapMaxPoints * 100) : 0}%
-                              </span>
-                            </div>
-                          </div>
-                        </div>
+                          );
+                        })()}
 
                         {/* TPs List */}
                         <div className="space-y-2 pl-2">
