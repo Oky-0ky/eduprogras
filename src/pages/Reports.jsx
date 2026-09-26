@@ -449,33 +449,32 @@ export default function Reports({ parentAccess = false }) {
     if (!targetStudent) return;
 
     const phone = targetStudent.parentPhone || '6281234567891';
-    const classLabel = (targetStudent.className || 'Kelas 5 SDQ - Madani Al washiyyah')
-      .replace(/^Kelas\s+/i, '')
-      .replace(/\s*-\s*/g, ' ')
-      .replace(/\bwashiyyah\b/i, 'Washiyyah');
     const teacherName = targetStudent.homeroomTeacher || 'Ustadz Iski';
+    const firstName = targetStudent.name.split(' ')[0];
+
+    const msgOrigin = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ? 'https://eduprogres.wuaze.com'
+      : window.location.origin;
+    const tasksLink = `${msgOrigin}/ortu/${targetStudent.id}?report=tasks`;
 
     const message = `Assalamu'alaikum Warahmatullahi Wabarakatuh.
-
 Yth. Ayah/Bunda dari ananda *${targetStudent.name}*,
 
-Afwan, izin kami menyampaikan *Laporan Capaian Tujuan Pembelajaran (TP) per Bab pada setiap mata pelajaran* ananda *${targetStudent.name}*, peserta didik kelas *${classLabel}*, berdasarkan materi pembelajaran yang telah dipelajari dan capaian yang telah diperoleh selama proses pembelajaran.
+Afwan, izin menyampaikan Laporan Capaian Pembelajaran per Bab ananda *${firstName}* selama proses pembelajaran di kelas 5 SDQ Madani Al Washiyyah.
 
-Alhamdulillah, berdasarkan hasil pembelajaran yang telah dilaksanakan, ananda menunjukkan *pemahaman yang baik terhadap materi pada berbagai mata pelajaran*. Adapun rincian capaian pembelajaran ananda dapat dilihat pada laporan berikut.
+Alhamdulillah, secara umum ananda menunjukkan pemahaman yang baik terhadap materi yang telah dipelajari.
 
-🌐 *Laporan Lengkap Secara Online*
-
-Ayah/Bunda dapat melihat laporan perkembangan dan capaian pembelajaran ananda secara lebih lengkap melalui tautan berikut:
-
+📚 *Laporan Capaian Pembelajaran*
+Ayah/Bunda dapat melihat laporan lengkap melalui tautan berikut:
 ${parentLink}
 
-Kami mengucapkan terima kasih atas perhatian, dukungan, dan kerja sama Ayah/Bunda dalam mendampingi proses belajar ananda. Dukungan dan pendampingan dari Ayah/Bunda merupakan bagian penting dalam membantu ananda mengembangkan potensi dan mencapai hasil belajar yang optimal.
+📝 *Laporan Tugas Selesai*
+Untuk melihat tugas-tugas yang telah diselesaikan ananda, dapat melalui tautan berikut:
+${tasksLink}
 
-Semoga capaian yang telah diperoleh dapat terus dipertahankan dan ditingkatkan, serta menjadi motivasi bagi ananda untuk senantiasa semangat dalam belajar, mengembangkan potensi diri, meraih prestasi, dan memiliki akhlak yang mulia.
+Terima kasih atas perhatian, dukungan, dan pendampingan Ayah/Bunda dalam proses belajar ananda.
 
-Demikian *Laporan Capaian Tujuan Pembelajaran* ini kami sampaikan. Mohon doa dan dukungan Ayah/Bunda agar proses pendidikan ananda senantiasa diberikan kemudahan dan keberkahan.
-
-Semoga Allah Subhanahu wa Ta'ala senantiasa memberikan kemudahan, keberkahan, dan kesuksesan dalam setiap proses pendidikan ananda.
+Semoga Allah senantiasa memberikan kemudahan dan keberkahan dalam setiap proses pendidikan ananda, serta menjadikan ananda anak yang berilmu, berakhlak mulia, dan terus semangat dalam belajar.
 
 Wassalamu'alaikum Warahmatullahi Wabarakatuh.
 

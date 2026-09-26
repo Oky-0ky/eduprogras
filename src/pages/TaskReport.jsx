@@ -162,7 +162,7 @@ export default function TaskReport() {
   // ── Link Singkat & Bersih untuk Orang Tua ──────────────────────────────────
   const parentLink = useMemo(() => {
     const origin = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-      ? 'https://eduprogras.vercel.app'
+      ? 'https://eduprogres.wuaze.com'
       : window.location.origin;
     const isAllSelected = selectedReportSubjects.length === subjectList.length;
     const subParam = (!isAllSelected && selectedReportSubjects.length > 0)
@@ -171,7 +171,41 @@ export default function TaskReport() {
     return `${origin}/ortu/${studentId}?report=tasks${subParam}`;
   }, [studentId, selectedReportSubjects, subjectList.length]);
 
-  const buildWaMessage = () => `Assalamu'alaikum Wr. Wb. Yth. ${currentStudent.parentName},\n\nBerikut *Laporan Pengumpulan Tugas* ananda *${currentStudent.name}* (${currentStudent.className}).\n\n📚 Total tugas dilaporkan: ${reportTasks.length}\n✅ Sudah mengumpulkan: ${reportSubmittedTasks.length}\n⚠️ Belum mengumpulkan: ${reportMissingCount}\n📊 Rata-rata nilai: ${reportAverage}\n\nLaporan lengkap dapat dilihat melalui tautan berikut:\n${parentLink}\n\n-- ${currentStudent.homeroomTeacher}`;
+  const tpLink = useMemo(() => {
+    const origin = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ? 'https://eduprogres.wuaze.com'
+      : window.location.origin;
+    return `${origin}/ortu/${studentId}?hide=pre,post,pts`;
+  }, [studentId]);
+
+  const buildWaMessage = () => {
+    const firstName = currentStudent.name.split(' ')[0];
+    const teacherName = currentStudent.homeroomTeacher || 'Ustadz Iski';
+    return `Assalamu'alaikum Warahmatullahi Wabarakatuh.
+Yth. Ayah/Bunda dari ananda *${currentStudent.name}*,
+
+Afwan, izin menyampaikan Laporan Capaian Pembelajaran per Bab ananda *${firstName}* selama proses pembelajaran di kelas 5 SDQ Madani Al Washiyyah.
+
+Alhamdulillah, secara umum ananda menunjukkan pemahaman yang baik terhadap materi yang telah dipelajari.
+
+📚 *Laporan Capaian Pembelajaran*
+Ayah/Bunda dapat melihat laporan lengkap melalui tautan berikut:
+${tpLink}
+
+📝 *Laporan Tugas Selesai*
+Untuk melihat tugas-tugas yang telah diselesaikan ananda, dapat melalui tautan berikut:
+${parentLink}
+
+Terima kasih atas perhatian, dukungan, dan pendampingan Ayah/Bunda dalam proses belajar ananda.
+
+Semoga Allah senantiasa memberikan kemudahan dan keberkahan dalam setiap proses pendidikan ananda, serta menjadikan ananda anak yang berilmu, berakhlak mulia, dan terus semangat dalam belajar.
+
+Wassalamu'alaikum Warahmatullahi Wabarakatuh.
+
+Hormat kami,
+*${teacherName}*
+SDQ Madani Al Washiyyah`;
+  };
 
   const copyParentLink = async () => {
     saveReportSnapshot();
